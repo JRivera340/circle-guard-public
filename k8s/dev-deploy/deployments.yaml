@@ -1,0 +1,348 @@
+---
+# ── identity-service ──────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circleguard-identity-service
+  namespace: circleguard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circleguard-identity-service
+  template:
+    metadata:
+      labels:
+        app: circleguard-identity-service
+    spec:
+      containers:
+        - name: circleguard-identity-service
+          image: jrivera340/circleguard-identity-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8083
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://host.docker.internal:5432/circleguard_identity"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "password"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "host.docker.internal:9092"
+            - name: VAULT_SECRET
+              value: "746573742d7365637265742d33322d63686172732d6c6f6e672d313233343536"
+            - name: JWT_SECRET
+              value: "my-super-secret-dev-key-32-chars-long-12345678"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "768Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circleguard-identity-service
+  namespace: circleguard-dev
+spec:
+  selector:
+    app: circleguard-identity-service
+  ports:
+    - port: 8083
+      targetPort: 8083
+      nodePort: 30083
+  type: LoadBalancer
+---
+# ── auth-service ──────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circleguard-auth-service
+  namespace: circleguard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circleguard-auth-service
+  template:
+    metadata:
+      labels:
+        app: circleguard-auth-service
+    spec:
+      containers:
+        - name: circleguard-auth-service
+          image: jrivera340/circleguard-auth-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8180
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://host.docker.internal:5432/circleguard_auth"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "password"
+            - name: SPRING_LDAP_URLS
+              value: "ldap://host.docker.internal:389"
+            - name: JWT_SECRET
+              value: "my-super-secret-dev-key-32-chars-long-12345678"
+            - name: QR_SECRET
+              value: "my-qr-secret-key-for-dev-1234567890"
+            - name: IDENTITY_SERVICE_URL
+              value: "http://circleguard-identity-service:8083"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "768Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circleguard-auth-service
+  namespace: circleguard-dev
+spec:
+  selector:
+    app: circleguard-auth-service
+  ports:
+    - port: 8180
+      targetPort: 8180
+      nodePort: 30180
+  type: LoadBalancer
+---
+# ── gateway-service ───────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circleguard-gateway-service
+  namespace: circleguard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circleguard-gateway-service
+  template:
+    metadata:
+      labels:
+        app: circleguard-gateway-service
+    spec:
+      containers:
+        - name: circleguard-gateway-service
+          image: jrivera340/circleguard-gateway-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8087
+          env:
+            - name: SPRING_DATA_REDIS_HOST
+              value: "host.docker.internal"
+            - name: SPRING_DATA_REDIS_PORT
+              value: "6379"
+            - name: QR_SECRET
+              value: "my-qr-secret-key-for-dev-1234567890"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+            limits:
+              memory: "512Mi"
+              cpu: "300m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circleguard-gateway-service
+  namespace: circleguard-dev
+spec:
+  selector:
+    app: circleguard-gateway-service
+  ports:
+    - port: 8087
+      targetPort: 8087
+      nodePort: 30087
+  type: LoadBalancer
+---
+# ── form-service ──────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circleguard-form-service
+  namespace: circleguard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circleguard-form-service
+  template:
+    metadata:
+      labels:
+        app: circleguard-form-service
+    spec:
+      containers:
+        - name: circleguard-form-service
+          image: jrivera340/circleguard-form-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8086
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://host.docker.internal:5432/circleguard_form"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "password"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "host.docker.internal:9092"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "768Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circleguard-form-service
+  namespace: circleguard-dev
+spec:
+  selector:
+    app: circleguard-form-service
+  ports:
+    - port: 8086
+      targetPort: 8086
+      nodePort: 30086
+  type: LoadBalancer
+---
+# ── promotion-service ─────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circleguard-promotion-service
+  namespace: circleguard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circleguard-promotion-service
+  template:
+    metadata:
+      labels:
+        app: circleguard-promotion-service
+    spec:
+      containers:
+        - name: circleguard-promotion-service
+          image: jrivera340/circleguard-promotion-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8088
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://host.docker.internal:5432/circleguard_promotion"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "password"
+            - name: SPRING_NEO4J_URI
+              value: "bolt://host.docker.internal:7687"
+            - name: SPRING_NEO4J_AUTHENTICATION_PASSWORD
+              value: "password"
+            - name: SPRING_DATA_REDIS_HOST
+              value: "host.docker.internal"
+            - name: SPRING_DATA_REDIS_PORT
+              value: "6379"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "host.docker.internal:9092"
+            - name: JWT_SECRET
+              value: "my-super-secret-dev-key-32-chars-long-12345678"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info"
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circleguard-promotion-service
+  namespace: circleguard-dev
+spec:
+  selector:
+    app: circleguard-promotion-service
+  ports:
+    - port: 8088
+      targetPort: 8088
+      nodePort: 30088
+  type: LoadBalancer
+---
+# ── notification-service ──────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circleguard-notification-service
+  namespace: circleguard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circleguard-notification-service
+  template:
+    metadata:
+      labels:
+        app: circleguard-notification-service
+    spec:
+      containers:
+        - name: circleguard-notification-service
+          image: jrivera340/circleguard-notification-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "host.docker.internal:9092"
+            - name: AUTH_API_URL
+              value: "http://circleguard-auth-service:8180"
+            - name: MAIL_MOCK
+              value: "true"
+            - name: SMS_MOCK
+              value: "true"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "768Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circleguard-notification-service
+  namespace: circleguard-dev
+spec:
+  selector:
+    app: circleguard-notification-service
+  ports:
+    - port: 8082
+      targetPort: 8082
+      nodePort: 30082
+  type: LoadBalancer

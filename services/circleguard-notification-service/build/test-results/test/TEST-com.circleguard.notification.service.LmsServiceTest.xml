@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.circleguard.notification.service.LmsServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-15T02:10:04.271Z" hostname="JOSHY" time="0.276">
+  <properties/>
+  <testcase name="testRemoteAttendanceSync()" classname="com.circleguard.notification.service.LmsServiceTest" time="0.276"/>
+  <system-out><![CDATA[2026-05-14T21:10:02.340-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.circleguard.notification.service.LmsServiceTest]: LmsServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-14T21:10:02.345-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.circleguard.notification.NotificationApplication for test class com.circleguard.notification.service.LmsServiceTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.4)
+
+2026-05-14T21:10:02.396-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.notification.service.LmsServiceTest  : Starting LmsServiceTest using Java 17.0.18 with PID 14020 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-notification-service)
+2026-05-14T21:10:02.398-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.notification.service.LmsServiceTest  : No active profile set, falling back to 1 default profile: "default"
+2026-05-14T21:10:02.942-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Node -1 disconnected.
+2026-05-14T21:10:02.942-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:02.943-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:02.951-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:02.951-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:02.952-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:02.952-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:02.952-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:02.952-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.047-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:03.047-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Node -1 disconnected.
+2026-05-14T21:10:03.047-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.047-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.047-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.048-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.056-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:03.056-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.056-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.160-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Node -1 disconnected.
+2026-05-14T21:10:03.160-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:03.161-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:03.161-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.161-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.161-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.161-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.161-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.162-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.336-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Node -1 disconnected.
+2026-05-14T21:10:03.337-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.340-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.345-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:03.347-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.347-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.432-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:03.432-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.432-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.729-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Node -1 disconnected.
+2026-05-14T21:10:03.730-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.730-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.760-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:03.761-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.762-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:03.827-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:03.827-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:03.827-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.195-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-notification-priority-group-4
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = notification-priority-group
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2026-05-14T21:10:04.208-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
+2026-05-14T21:10:04.208-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
+2026-05-14T21:10:04.208-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778811004208
+2026-05-14T21:10:04.209-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Subscribed to topic(s): alert.priority
+2026-05-14T21:10:04.218-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Node -1 disconnected.
+2026-05-14T21:10:04.218-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-notification-group-5
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = notification-group
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2026-05-14T21:10:04.219-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.222-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.230-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
+2026-05-14T21:10:04.230-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
+2026-05-14T21:10:04.230-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778811004230
+2026-05-14T21:10:04.230-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Subscribed to topic(s): circle.fenced
+2026-05-14T21:10:04.239-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-notification-group-6
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = notification-group
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2026-05-14T21:10:04.240-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:04.241-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.241-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.249-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
+2026-05-14T21:10:04.249-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
+2026-05-14T21:10:04.249-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778811004249
+2026-05-14T21:10:04.249-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Subscribed to topic(s): promotion.status.changed
+2026-05-14T21:10:04.259-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:04.261-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.notification.service.LmsServiceTest  : Started LmsServiceTest in 1.91 seconds (process running for 10.57)
+2026-05-14T21:10:04.263-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.264-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.287-05:00  INFO 14020 --- [circleguard-notification-service] [         task-1] c.c.notification.service.LmsServiceImpl  : LMS Sync: Resolving real identity for anonymousId: student-123 via Identity Vault (http://circleguard-identity-service:8081)
+2026-05-14T21:10:04.288-05:00  INFO 14020 --- [circleguard-notification-service] [         task-1] c.c.notification.service.LmsServiceImpl  : LMS Sync: Marking student student-123 (Real ID: student@student-.university.edu) for Remote Attendance in LMS (https://lms.university.edu/api/v1) based on status: PROBABLE
+2026-05-14T21:10:04.333-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Node -1 disconnected.
+2026-05-14T21:10:04.334-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.337-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.347-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:04.347-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.347-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.362-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:04.362-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.363-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.446-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Node -1 disconnected.
+2026-05-14T21:10:04.449-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.451-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.466-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:04.467-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.467-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.480-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:04.480-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.482-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:04.483-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:04.483-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:04.483-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

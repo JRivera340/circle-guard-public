@@ -1,0 +1,61 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: circleguard-prod
+
+resources:
+  - ../../base
+
+commonLabels:
+  environment: prod
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 3
+    target:
+      kind: Deployment
+      name: circleguard-auth-service
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 3
+    target:
+      kind: Deployment
+      name: circleguard-gateway-service
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 3
+    target:
+      kind: Deployment
+      name: circleguard-form-service
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+    target:
+      kind: Deployment
+      name: circleguard-identity-service
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+    target:
+      kind: Deployment
+      name: circleguard-notification-service
+
+images:
+  - name: jrivera340/circleguard-auth-service
+    newTag: v1.0.0
+  - name: jrivera340/circleguard-identity-service
+    newTag: v1.0.0
+  - name: jrivera340/circleguard-form-service
+    newTag: v1.0.0
+  - name: jrivera340/circleguard-promotion-service
+    newTag: v1.0.0
+  - name: jrivera340/circleguard-gateway-service
+    newTag: v1.0.0
+  - name: jrivera340/circleguard-notification-service
+    newTag: v1.0.0

@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: locust-perf-test
+  namespace: circleguard-staging
+  labels:
+    app: locust-perf-test
+    component: testing
+spec:
+  completions: 1
+  backoffLimit: 1
+  activeDeadlineSeconds: 900
+  template:
+    metadata:
+      labels:
+        app: locust-perf-test
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: locust
+          image: locustio/locust:2.24.0
+          command:
+            - locust
+            - --headless
+            - --users=200
+            - --spawn-rate=20
+            - --run-time=10m
+            - --host=http://circleguard-gateway-service:8087
+            - --html=/results/locust-report.html
+            - --csv=/results/locust
+            - --logfile=/results/locust.log
+            - -f
+            - /scripts/locustfile.py
+          env:
+            - name: AUTH_URL
+              value: "http://circleguard-auth-service:8180"
+            - name: GATEWAY_URL
+              value: "http://circleguard-gateway-service:8087"
+            - name: FORM_URL
+              value: "http://circleguard-form-service:8086"
+            - name: PROMOTION_URL
+              value: "http://circleguard-promotion-service:8088"
+          volumeMounts:
+            - name: locust-scripts
+              mountPath: /scripts
+            - name: locust-results
+              mountPath: /results
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+      volumes:
+        - name: locust-scripts
+          configMap:
+            name: locust-scripts
+        - name: locust-results
+          emptyDir: {}

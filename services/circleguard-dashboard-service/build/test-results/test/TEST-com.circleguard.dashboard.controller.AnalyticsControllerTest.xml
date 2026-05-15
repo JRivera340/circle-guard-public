@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.circleguard.dashboard.controller.AnalyticsControllerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-15T01:56:07.959Z" hostname="JOSHY" time="0.281">
+  <properties/>
+  <testcase name="shouldReturnTrendsForLocation()" classname="com.circleguard.dashboard.controller.AnalyticsControllerTest" time="0.272"/>
+  <testcase name="shouldReturnHealthBoardStats()" classname="com.circleguard.dashboard.controller.AnalyticsControllerTest" time="0.007"/>
+  <system-out><![CDATA[20:56:05.268 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.circleguard.dashboard.controller.AnalyticsControllerTest]: AnalyticsControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:56:05.442 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.circleguard.dashboard.DashboardApplication for test class com.circleguard.dashboard.controller.AnalyticsControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.4)
+
+2026-05-14T20:56:05.893-05:00  INFO 20796 --- [circleguard-dashboard-service] [    Test worker] c.c.d.c.AnalyticsControllerTest          : Starting AnalyticsControllerTest using Java 17.0.18 with PID 20796 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-dashboard-service)
+2026-05-14T20:56:05.894-05:00  INFO 20796 --- [circleguard-dashboard-service] [    Test worker] c.c.d.c.AnalyticsControllerTest          : No active profile set, falling back to 1 default profile: "default"
+2026-05-14T20:56:07.898-05:00  INFO 20796 --- [circleguard-dashboard-service] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-14T20:56:07.898-05:00  INFO 20796 --- [circleguard-dashboard-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-14T20:56:07.904-05:00  INFO 20796 --- [circleguard-dashboard-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-14T20:56:07.944-05:00  INFO 20796 --- [circleguard-dashboard-service] [    Test worker] c.c.d.c.AnalyticsControllerTest          : Started AnalyticsControllerTest in 2.389 seconds (process running for 3.797)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

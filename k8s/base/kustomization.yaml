@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: circleguard-dev
+
+resources:
+  # Namespaces
+  - namespaces/dev.yaml
+  - namespaces/staging.yaml
+  - namespaces/prod.yaml
+  # Middleware
+  - postgres/
+  - neo4j/
+  - redis/
+  - kafka/
+  - openldap/
+  # ConfigMaps & Secrets
+  - configmaps/
+  - secrets/
+  # Microservices
+  - services/circleguard-auth-service/
+  - services/circleguard-identity-service/
+  - services/circleguard-form-service/
+  - services/circleguard-promotion-service/
+  - services/circleguard-gateway-service/
+  - services/circleguard-notification-service/
+  # Jenkins
+  - services/jenkins/

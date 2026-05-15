@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - PriorityAlertListenerTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>PriorityAlertListenerTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.circleguard.notification.service.html">com.circleguard.notification.service</a> &gt; PriorityAlertListenerTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.532s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">testHandlePriorityAlert_NoAdmins()</td>
+<td class="success">0.519s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testHandlePriorityAlert_Success()</td>
+<td class="success">0.013s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-05-14T21:10:10.150-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Node -1 disconnected.
+2026-05-14T21:10:10.150-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:10.150-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:10.200-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:10.201-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:10.201-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:10.369-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:10.371-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:10.372-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:10.384-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:10.384-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:10.384-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:10.422-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Node -1 disconnected.
+2026-05-14T21:10:10.423-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
+2026-05-14T21:10:10.423-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2026-05-14T21:10:10.591-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.service.PriorityAlertListener      : Received alert.priority event: {&quot;eventType&quot;:&quot;CONFIRMED_CASE&quot;,&quot;affectedCount&quot;:1}
+2026-05-14T21:10:10.593-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.service.PriorityAlertListener      : Processing CONFIRMED_CASE Priority Alert. Affected: 1
+2026-05-14T21:10:10.594-05:00  WARN 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.service.PriorityAlertListener      : No administrators found with alert:receive_priority permission.
+2026-05-14T21:10:10.606-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.service.PriorityAlertListener      : Received alert.priority event: {&quot;eventType&quot;:&quot;CONFIRMED_CASE&quot;,&quot;affectedCount&quot;:1}
+2026-05-14T21:10:10.607-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.service.PriorityAlertListener      : Processing CONFIRMED_CASE Priority Alert. Affected: 1
+2026-05-14T21:10:10.607-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.service.PriorityAlertListener      : Dispatching priority alert to admin email: admin@university.edu
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 8.14</a> at 14/05/2026, 9:10:13 p. m.</p>
+</div>
+</div>
+</body>
+</html>
