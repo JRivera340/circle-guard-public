@@ -49,7 +49,7 @@ pipeline {
                         # Descargar kubectl si no está presente
                         if ! command -v kubectl &> /dev/null; then
                             echo "kubectl not found, downloading binary..."
-                            curl -LO "https://dl.k8s.io/release/\$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                            curl --retry 5 --retry-delay 5 -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
                             chmod +x kubectl
                             export PATH=\$PATH:.
                         fi
