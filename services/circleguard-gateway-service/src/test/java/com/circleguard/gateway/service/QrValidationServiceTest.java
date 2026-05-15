@@ -41,7 +41,7 @@ public class QrValidationServiceTest {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        Mockito.when(valueOps.get("user:status:" + anonymousId)).thenReturn("CLEAR");
+        Mockito.when(valueOps.get("user:status:" + anonymousId)).thenReturn("ACTIVE");
 
         QrValidationService.ValidationResult result = service.validateToken(token);
         
@@ -50,7 +50,7 @@ public class QrValidationServiceTest {
     }
 
     @Test
-    void shouldDenyAccessForContagiedUser() {
+    void shouldDenyAccessForConfirmedUser() {
         String anonymousId = UUID.randomUUID().toString();
         Key key = Keys.hmacShaKeyFor(secret.getBytes());
         String token = Jwts.builder()
@@ -58,7 +58,7 @@ public class QrValidationServiceTest {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        Mockito.when(valueOps.get("user:status:" + anonymousId)).thenReturn("CONTAGIED");
+        Mockito.when(valueOps.get("user:status:" + anonymousId)).thenReturn("CONFIRMED");
 
         QrValidationService.ValidationResult result = service.validateToken(token);
         

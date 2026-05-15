@@ -9,12 +9,12 @@ spring:
     hibernate:
       ddl-auto: create-drop
   neo4j:
-    uri: ${spring.neo4j.uri}
+    uri: ${spring.neo4j.uri:bolt://localhost:7687}
     authentication:
       username: neo4j
       password: password
   kafka:
-    bootstrap-servers: ${spring.embedded.kafka.brokers}
+    bootstrap-servers: ${spring.embedded.kafka.brokers:localhost:9092}
   data:
     redis:
       host: localhost

@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    environment { K8S_NAMESPACE = "circleguard-stage" }
+    stages {
+        stage('Build & Test') {
+            steps { sh './gradlew build' }
+        }
+        stage('Deploy Stage') {
+            steps { sh 'kubectl apply -f k8s/dev-deploy/deployments.yaml -n ${K8S_NAMESPACE}' }
+        }
+        stage('System Verification') {
+            steps { sh 'python -m pytest tests/e2e/test_e2e_flows.py' }
+        }
+    }
+}
