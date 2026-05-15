@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.circleguard.promotion.service.FloorServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:54:27.578Z" hostname="JOSHY" time="0.256">
+  <properties/>
+  <testcase name="updateFloor_ShouldNotUpdateIfUrlIsNull()" classname="com.circleguard.promotion.service.FloorServiceTest" time="0.249"/>
+  <testcase name="updateFloor_ShouldUpdateFloorPlanUrl()" classname="com.circleguard.promotion.service.FloorServiceTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

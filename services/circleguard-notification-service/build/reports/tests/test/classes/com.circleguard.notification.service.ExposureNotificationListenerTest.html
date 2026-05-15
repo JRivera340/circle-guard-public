@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.070s</div>
+<div class="counter">0.068s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">shouldHandleStatusChangeEventWithoutError()</td>
-<td class="success">0.070s</td>
+<td class="success">0.068s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,8 +87,8 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>21:09:55.341 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.circleguard.notification.service.ExposureNotificationListenerTest]: ExposureNotificationListenerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-21:09:55.541 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.circleguard.notification.NotificationApplication for test class com.circleguard.notification.service.ExposureNotificationListenerTest
+<pre>22:53:53.931 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.circleguard.notification.service.ExposureNotificationListenerTest]: ExposureNotificationListenerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:53:54.227 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.circleguard.notification.NotificationApplication for test class com.circleguard.notification.service.ExposureNotificationListenerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -98,9 +98,9 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.4)
 
-2026-05-14T21:09:56.211-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.s.ExposureNotificationListenerTest : Starting ExposureNotificationListenerTest using Java 17.0.18 with PID 14020 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-notification-service)
-2026-05-14T21:09:56.213-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.s.ExposureNotificationListenerTest : The following 1 profile is active: &quot;test&quot;
-2026-05-14T21:10:01.816-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2026-05-14T22:53:55.016-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] c.c.n.s.ExposureNotificationListenerTest : Starting ExposureNotificationListenerTest using Java 17.0.18 with PID 11104 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-notification-service)
+2026-05-14T22:53:55.017-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] c.c.n.s.ExposureNotificationListenerTest : The following 1 profile is active: &quot;test&quot;
+2026-05-14T22:53:58.990-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -194,11 +194,11 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-2026-05-14T21:10:02.104-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
-2026-05-14T21:10:02.108-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
-2026-05-14T21:10:02.108-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778811002097
-2026-05-14T21:10:02.116-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Subscribed to topic(s): alert.priority
-2026-05-14T21:10:02.142-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2026-05-14T22:53:59.190-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
+2026-05-14T22:53:59.193-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
+2026-05-14T22:53:59.193-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778817239186
+2026-05-14T22:53:59.196-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Subscribed to topic(s): alert.priority
+2026-05-14T22:53:59.212-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -292,11 +292,11 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-2026-05-14T21:10:02.157-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
-2026-05-14T21:10:02.157-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
-2026-05-14T21:10:02.157-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778811002157
-2026-05-14T21:10:02.159-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Subscribed to topic(s): circle.fenced
-2026-05-14T21:10:02.163-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2026-05-14T22:53:59.225-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
+2026-05-14T22:53:59.225-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
+2026-05-14T22:53:59.225-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778817239225
+2026-05-14T22:53:59.226-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-2, groupId=notification-group] Subscribed to topic(s): circle.fenced
+2026-05-14T22:53:59.228-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -390,12 +390,12 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-2026-05-14T21:10:02.173-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
-2026-05-14T21:10:02.174-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
-2026-05-14T21:10:02.174-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778811002173
-2026-05-14T21:10:02.174-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Subscribed to topic(s): promotion.status.changed
-2026-05-14T21:10:02.212-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.s.ExposureNotificationListenerTest : Started ExposureNotificationListenerTest in 6.466 seconds (process running for 8.52)
-2026-05-14T21:10:02.282-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.s.ExposureNotificationListener     : Received health status change event: {&quot;userId&quot;: &quot;user-123&quot;, &quot;newStatus&quot;: &quot;EXPOSED&quot;}
+2026-05-14T22:53:59.240-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
+2026-05-14T22:53:59.240-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
+2026-05-14T22:53:59.240-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778817239240
+2026-05-14T22:53:59.241-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Subscribed to topic(s): promotion.status.changed
+2026-05-14T22:53:59.256-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] c.c.n.s.ExposureNotificationListenerTest : Started ExposureNotificationListenerTest in 4.698 seconds (process running for 6.693)
+2026-05-14T22:53:59.344-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] c.c.n.s.ExposureNotificationListener     : Received health status change event: {&quot;userId&quot;: &quot;user-123&quot;, &quot;newStatus&quot;: &quot;EXPOSED&quot;}
 </pre>
 </span>
 </div>
@@ -407,7 +407,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14</a> at 14/05/2026, 9:10:13 p. m.</p>
+<a href="https://www.gradle.org">Gradle 8.14</a> at 14/05/2026, 10:54:13 p. m.</p>
 </div>
 </div>
 </body>

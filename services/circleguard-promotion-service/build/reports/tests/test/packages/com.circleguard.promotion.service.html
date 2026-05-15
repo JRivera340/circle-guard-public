@@ -22,13 +22,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">1</div>
+<div class="counter">18</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">1</div>
+<div class="counter">11</div>
 <p>failures</p>
 </div>
 </td>
@@ -40,7 +40,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.005s</div>
+<div class="counter">0.848s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,7 +50,7 @@
 </td>
 <td>
 <div class="infoBox failures" id="successRate">
-<div class="percent">0%</div>
+<div class="percent">38%</div>
 <p>successful</p>
 </div>
 </td>
@@ -70,8 +70,48 @@
 <h2>Failed tests</h2>
 <ul class="linkList">
 <li>
+<a href="../classes/com.circleguard.promotion.service.AdministrativeCorrectionTest.html">AdministrativeCorrectionTest</a>.
+<a href="../classes/com.circleguard.promotion.service.AdministrativeCorrectionTest.html#initializationError">initializationError</a>
+</li>
+<li>
 <a href="../classes/com.circleguard.promotion.service.HealthStatusReevaluationTest.html">HealthStatusReevaluationTest</a>.
 <a href="../classes/com.circleguard.promotion.service.HealthStatusReevaluationTest.html#initializationError">initializationError</a>
+</li>
+<li>
+<a href="../classes/com.circleguard.promotion.service.HealthStatusServiceTest.html">HealthStatusServiceTest</a>.
+<a href="../classes/com.circleguard.promotion.service.HealthStatusServiceTest.html#shouldAllowOverrideWhenWithinFenceWindow()">shouldAllowOverrideWhenWithinFenceWindow()</a>
+</li>
+<li>
+<a href="../classes/com.circleguard.promotion.service.HealthStatusServiceTest.html">HealthStatusServiceTest</a>.
+<a href="../classes/com.circleguard.promotion.service.HealthStatusServiceTest.html#shouldThrowExceptionWhenUpdatingStatusToActiveWithinFenceWindow()">shouldThrowExceptionWhenUpdatingStatusToActiveWithinFenceWindow()</a>
+</li>
+<li>
+<a href="../classes/com.circleguard.promotion.service.HealthStatusServiceTest.html">HealthStatusServiceTest</a>.
+<a href="../classes/com.circleguard.promotion.service.HealthStatusServiceTest.html#shouldUpdateStatusSuccessfully()">shouldUpdateStatusSuccessfully()</a>
+</li>
+<li>
+<a href="../classes/com.circleguard.promotion.service.StatusLifecycleTest.html">StatusLifecycleTest</a>.
+<a href="../classes/com.circleguard.promotion.service.StatusLifecycleTest.html#automaticTransition_HandlesEmptyResults()">automaticTransition_HandlesEmptyResults()</a>
+</li>
+<li>
+<a href="../classes/com.circleguard.promotion.service.StatusLifecycleTest.html">StatusLifecycleTest</a>.
+<a href="../classes/com.circleguard.promotion.service.StatusLifecycleTest.html#automaticTransition_ReleasesExpiredUsers()">automaticTransition_ReleasesExpiredUsers()</a>
+</li>
+<li>
+<a href="../classes/com.circleguard.promotion.service.StatusPropagationIntegrationTest.html">StatusPropagationIntegrationTest</a>.
+<a href="../classes/com.circleguard.promotion.service.StatusPropagationIntegrationTest.html#recoveredStatusShouldHaveExpiration()">recoveredStatusShouldHaveExpiration()</a>
+</li>
+<li>
+<a href="../classes/com.circleguard.promotion.service.StatusPropagationIntegrationTest.html">StatusPropagationIntegrationTest</a>.
+<a href="../classes/com.circleguard.promotion.service.StatusPropagationIntegrationTest.html#resolveStatusShouldResetRedisKey()">resolveStatusShouldResetRedisKey()</a>
+</li>
+<li>
+<a href="../classes/com.circleguard.promotion.service.StatusPropagationIntegrationTest.html">StatusPropagationIntegrationTest</a>.
+<a href="../classes/com.circleguard.promotion.service.StatusPropagationIntegrationTest.html#shouldCheckSystemSettingsBeforePropagation()">shouldCheckSystemSettingsBeforePropagation()</a>
+</li>
+<li>
+<a href="../classes/com.circleguard.promotion.service.StatusPropagationIntegrationTest.html">StatusPropagationIntegrationTest</a>.
+<a href="../classes/com.circleguard.promotion.service.StatusPropagationIntegrationTest.html#shouldUpdateRedisOnConfirmedStatus()">shouldUpdateRedisOnConfirmedStatus()</a>
 </li>
 </ul>
 </div>
@@ -90,13 +130,73 @@
 </thead>
 <tr>
 <td class="failures">
+<a href="../classes/com.circleguard.promotion.service.AdministrativeCorrectionTest.html">AdministrativeCorrectionTest</a>
+</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0.001s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="../classes/com.circleguard.promotion.service.FloorServiceTest.html">FloorServiceTest</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.254s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
 <a href="../classes/com.circleguard.promotion.service.HealthStatusReevaluationTest.html">HealthStatusReevaluationTest</a>
 </td>
 <td>1</td>
 <td>1</td>
 <td>0</td>
-<td>0.005s</td>
+<td>0.001s</td>
 <td class="failures">0%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="../classes/com.circleguard.promotion.service.HealthStatusServiceFenceTest.html">UT-5: HealthStatusService — Fence Window Enforcement</a>
+</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0.401s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="../classes/com.circleguard.promotion.service.HealthStatusServiceTest.html">HealthStatusServiceTest</a>
+</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>0.002s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="../classes/com.circleguard.promotion.service.StatusLifecycleTest.html">StatusLifecycleTest</a>
+</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0.001s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="../classes/com.circleguard.promotion.service.StatusPropagationIntegrationTest.html">StatusPropagationIntegrationTest</a>
+</td>
+<td>5</td>
+<td>4</td>
+<td>0</td>
+<td>0.188s</td>
+<td class="failures">20%</td>
 </tr>
 </table>
 </div>
@@ -108,7 +208,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14</a> at 14/05/2026, 9:23:26 p. m.</p>
+<a href="https://www.gradle.org">Gradle 8.14</a> at 14/05/2026, 10:54:34 p. m.</p>
 </div>
 </div>
 </body>

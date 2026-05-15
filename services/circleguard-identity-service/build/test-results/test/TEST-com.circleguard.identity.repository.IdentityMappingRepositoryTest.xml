@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.circleguard.identity.repository.IdentityMappingRepositoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-15T01:59:48.857Z" hostname="JOSHY" time="0.311">
+<testsuite name="com.circleguard.identity.repository.IdentityMappingRepositoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:53:48.436Z" hostname="JOSHY" time="0.189">
   <properties/>
-  <testcase name="shouldFindMappingByIdentityHash()" classname="com.circleguard.identity.repository.IdentityMappingRepositoryTest" time="0.296"/>
-  <testcase name="shouldSaveAndRetrieveWithAutomaticEncryption()" classname="com.circleguard.identity.repository.IdentityMappingRepositoryTest" time="0.014"/>
-  <system-out><![CDATA[2026-05-14T20:59:44.846-05:00  INFO 30596 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.circleguard.identity.repository.IdentityMappingRepositoryTest]: IdentityMappingRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-05-14T20:59:44.904-05:00  INFO 30596 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.circleguard.identity.IdentityServiceApplication for test class com.circleguard.identity.repository.IdentityMappingRepositoryTest
+  <testcase name="shouldFindMappingByIdentityHash()" classname="com.circleguard.identity.repository.IdentityMappingRepositoryTest" time="0.179"/>
+  <testcase name="shouldSaveAndRetrieveWithAutomaticEncryption()" classname="com.circleguard.identity.repository.IdentityMappingRepositoryTest" time="0.009"/>
+  <system-out><![CDATA[2026-05-14T22:53:44.512-05:00  INFO 29280 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.circleguard.identity.repository.IdentityMappingRepositoryTest]: IdentityMappingRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-14T22:53:44.553-05:00  INFO 29280 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.circleguard.identity.IdentityServiceApplication for test class com.circleguard.identity.repository.IdentityMappingRepositoryTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -14,33 +14,33 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.4)
 
-2026-05-14T20:59:45.001-05:00  INFO 30596 --- [    Test worker] c.c.i.r.IdentityMappingRepositoryTest    : Starting IdentityMappingRepositoryTest using Java 17.0.18 with PID 30596 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-identity-service)
-2026-05-14T20:59:45.001-05:00  INFO 30596 --- [    Test worker] c.c.i.r.IdentityMappingRepositoryTest    : The following 1 profile is active: "test"
-2026-05-14T20:59:45.350-05:00  INFO 30596 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-05-14T20:59:45.430-05:00  INFO 30596 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63 ms. Found 1 JPA repository interface.
-2026-05-14T20:59:45.532-05:00  INFO 30596 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
-2026-05-14T20:59:45.705-05:00  INFO 30596 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:f964055d-87de-4545-b7e3-8a5a70cb0747;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-2026-05-14T20:59:46.221-05:00  INFO 30596 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
-2026-05-14T20:59:46.221-05:00  INFO 30596 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
-2026-05-14T20:59:46.221-05:00  INFO 30596 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : 
-2026-05-14T20:59:46.287-05:00  INFO 30596 --- [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:f964055d-87de-4545-b7e3-8a5a70cb0747 (H2 2.2)
-2026-05-14T20:59:46.294-05:00  WARN 30596 --- [    Test worker] o.f.c.internal.database.base.Database    : Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
-2026-05-14T20:59:46.323-05:00  INFO 30596 --- [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
-2026-05-14T20:59:46.326-05:00  INFO 30596 --- [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.018s)
-2026-05-14T20:59:46.332-05:00  INFO 30596 --- [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
-2026-05-14T20:59:46.367-05:00  INFO 30596 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
-2026-05-14T20:59:46.373-05:00  INFO 30596 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "1 - initial identity schema"
-2026-05-14T20:59:46.394-05:00  INFO 30596 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "PUBLIC", now at version v1 (execution time 00:00.007s)
-2026-05-14T20:59:46.528-05:00  INFO 30596 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-05-14T20:59:46.681-05:00  INFO 30596 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
-2026-05-14T20:59:46.753-05:00  INFO 30596 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2026-05-14T20:59:46.994-05:00  INFO 30596 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-05-14T20:59:47.078-05:00  WARN 30596 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-05-14T20:59:48.398-05:00  INFO 30596 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-14T22:53:44.604-05:00  INFO 29280 --- [    Test worker] c.c.i.r.IdentityMappingRepositoryTest    : Starting IdentityMappingRepositoryTest using Java 17.0.18 with PID 29280 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-identity-service)
+2026-05-14T22:53:44.604-05:00  INFO 29280 --- [    Test worker] c.c.i.r.IdentityMappingRepositoryTest    : The following 1 profile is active: "test"
+2026-05-14T22:53:44.916-05:00  INFO 29280 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-14T22:53:44.976-05:00  INFO 29280 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 1 JPA repository interface.
+2026-05-14T22:53:45.058-05:00  INFO 29280 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-05-14T22:53:45.167-05:00  INFO 29280 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:7d1b4c34-36b0-40a4-963e-fc9bec086048;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-05-14T22:53:45.600-05:00  INFO 29280 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2026-05-14T22:53:45.601-05:00  INFO 29280 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2026-05-14T22:53:45.601-05:00  INFO 29280 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : 
+2026-05-14T22:53:45.656-05:00  INFO 29280 --- [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:7d1b4c34-36b0-40a4-963e-fc9bec086048 (H2 2.2)
+2026-05-14T22:53:45.662-05:00  WARN 29280 --- [    Test worker] o.f.c.internal.database.base.Database    : Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2026-05-14T22:53:45.689-05:00  INFO 29280 --- [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-05-14T22:53:45.693-05:00  INFO 29280 --- [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.018s)
+2026-05-14T22:53:45.700-05:00  INFO 29280 --- [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-05-14T22:53:45.730-05:00  INFO 29280 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-05-14T22:53:45.736-05:00  INFO 29280 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "1 - initial identity schema"
+2026-05-14T22:53:45.748-05:00  INFO 29280 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "PUBLIC", now at version v1 (execution time 00:00.004s)
+2026-05-14T22:53:45.885-05:00  INFO 29280 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-14T22:53:46.036-05:00  INFO 29280 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-05-14T22:53:46.097-05:00  INFO 29280 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-14T22:53:46.266-05:00  INFO 29280 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-14T22:53:46.348-05:00  WARN 29280 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-14T22:53:47.839-05:00  INFO 29280 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: drop table if exists identity_mappings cascade 
 Hibernate: create table identity_mappings (anonymous_id uuid not null, identity_hash varchar(255) not null unique, real_identity_encrypted varbinary(255) not null, salt varchar(255) not null, primary key (anonymous_id))
-2026-05-14T20:59:48.430-05:00  INFO 30596 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-05-14T20:59:48.848-05:00  INFO 30596 --- [    Test worker] c.c.i.r.IdentityMappingRepositoryTest    : Started IdentityMappingRepositoryTest in 3.929 seconds (process running for 8.607)
+2026-05-14T22:53:47.893-05:00  INFO 29280 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-14T22:53:48.429-05:00  INFO 29280 --- [    Test worker] c.c.i.r.IdentityMappingRepositoryTest    : Started IdentityMappingRepositoryTest in 3.872 seconds (process running for 10.429)
 Hibernate: select im1_0.anonymous_id,im1_0.identity_hash,im1_0.real_identity_encrypted,im1_0.salt from identity_mappings im1_0 where im1_0.anonymous_id=?
 Hibernate: insert into identity_mappings (identity_hash,real_identity_encrypted,salt,anonymous_id) values (?,?,?,?)
 Hibernate: select im1_0.anonymous_id,im1_0.identity_hash,im1_0.real_identity_encrypted,im1_0.salt from identity_mappings im1_0 where im1_0.identity_hash=?

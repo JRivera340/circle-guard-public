@@ -1,0 +1,16 @@
+# Stage 1: Build (using host-mounted Gradle cache)
+FROM eclipse-temurin:21-jdk-jammy AS builder
+WORKDIR /workspace
+ARG SERVICE_NAME=circleguard-auth-service
+ARG SERVICE_PORT=8180
+# Copy pre-built JAR (built locally with gradlew bootJar)
+COPY services/${SERVICE_NAME}/build/libs/*.jar app-build.jar
+
+# Stage 2: Runtime
+FROM eclipse-temurin:21-jre-jammy
+RUN groupadd -r circleguard && useradd -r -g circleguard circleguard
+USER circleguard
+WORKDIR /app
+COPY --from=builder /workspace/app-build.jar app.jar
+EXPOSE ${SERVICE_PORT}
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]

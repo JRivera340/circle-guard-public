@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.circleguard.promotion.listener.SurveyListenerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:54:26.492Z" hostname="JOSHY" time="0.048">
+  <properties/>
+  <testcase name="onSurveySubmitted_WithoutSymptoms_DoesNothing()" classname="com.circleguard.promotion.listener.SurveyListenerTest" time="0.041"/>
+  <testcase name="onSurveySubmitted_WithSymptoms_PromotesToSuspect()" classname="com.circleguard.promotion.listener.SurveyListenerTest" time="0.005"/>
+  <system-out><![CDATA[2026-05-14T22:54:26.522-05:00  INFO 15364 --- [circleguard-promotion-service] [    Test worker] c.c.promotion.listener.SurveyListener    : Received survey submission event: {anonymousId=tester-123, hasSymptoms=false}
+2026-05-14T22:54:26.536-05:00  INFO 15364 --- [circleguard-promotion-service] [    Test worker] c.c.promotion.listener.SurveyListener    : Received survey submission event: {anonymousId=tester-123, hasSymptoms=true}
+2026-05-14T22:54:26.537-05:00  INFO 15364 --- [circleguard-promotion-service] [    Test worker] c.c.promotion.listener.SurveyListener    : Promoting user tester-123 to SUSPECT due to symptoms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

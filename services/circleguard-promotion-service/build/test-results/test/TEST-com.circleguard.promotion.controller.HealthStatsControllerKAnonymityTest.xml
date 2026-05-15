@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="UT-3: HealthStatsController — K-Anonymity Privacy Filter" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:54:20.241Z" hostname="JOSHY" time="0.034">
+  <properties/>
+  <testcase name="UT-3a: Departamento con 2 usuarios SUSPECT → enmascarado como '&lt;5'" classname="com.circleguard.promotion.controller.HealthStatsControllerKAnonymityTest" time="0.026"/>
+  <testcase name="UT-3d: Metadatos no numéricos (department, timestamp) no son enmascarados" classname="com.circleguard.promotion.controller.HealthStatsControllerKAnonymityTest" time="0.001"/>
+  <testcase name="UT-3e: Stats globales (/stats) no aplican K-Anonymity (toda la universidad)" classname="com.circleguard.promotion.controller.HealthStatsControllerKAnonymityTest" time="0.001"/>
+  <testcase name="UT-3c: Exactamente K=5 usuarios → conteo real (límite del umbral)" classname="com.circleguard.promotion.controller.HealthStatsControllerKAnonymityTest" time="0.001"/>
+  <testcase name="UT-3b: Departamento con 10 usuarios ACTIVE → conteo real expuesto" classname="com.circleguard.promotion.controller.HealthStatsControllerKAnonymityTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

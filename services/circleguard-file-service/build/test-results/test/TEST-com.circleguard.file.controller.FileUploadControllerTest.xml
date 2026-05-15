@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.circleguard.file.controller.FileUploadControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-15T01:53:15.728Z" hostname="JOSHY" time="0.23">
+<testsuite name="com.circleguard.file.controller.FileUploadControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:53:10.577Z" hostname="JOSHY" time="0.279">
   <properties/>
-  <testcase name="shouldUploadFileSuccessfully()" classname="com.circleguard.file.controller.FileUploadControllerTest" time="0.23"/>
-  <system-out><![CDATA[20:53:13.182 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.circleguard.file.controller.FileUploadControllerTest]: FileUploadControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-20:53:13.322 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.circleguard.file.FileApplication for test class com.circleguard.file.controller.FileUploadControllerTest
+  <testcase name="shouldUploadFileSuccessfully()" classname="com.circleguard.file.controller.FileUploadControllerTest" time="0.279"/>
+  <system-out><![CDATA[22:53:07.486 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.circleguard.file.controller.FileUploadControllerTest]: FileUploadControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:53:07.630 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.circleguard.file.FileApplication for test class com.circleguard.file.controller.FileUploadControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -13,12 +13,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.4)
 
-2026-05-14T20:53:13.838-05:00  INFO 13120 --- [circleguard-file-service] [    Test worker] c.c.f.c.FileUploadControllerTest         : Starting FileUploadControllerTest using Java 17.0.18 with PID 13120 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-file-service)
-2026-05-14T20:53:13.841-05:00  INFO 13120 --- [circleguard-file-service] [    Test worker] c.c.f.c.FileUploadControllerTest         : No active profile set, falling back to 1 default profile: "default"
-2026-05-14T20:53:15.664-05:00  INFO 13120 --- [circleguard-file-service] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-05-14T20:53:15.664-05:00  INFO 13120 --- [circleguard-file-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-05-14T20:53:15.666-05:00  INFO 13120 --- [circleguard-file-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
-2026-05-14T20:53:15.709-05:00  INFO 13120 --- [circleguard-file-service] [    Test worker] c.c.f.c.FileUploadControllerTest         : Started FileUploadControllerTest in 2.294 seconds (process running for 3.381)
+2026-05-14T22:53:08.197-05:00  INFO 3932 --- [circleguard-file-service] [    Test worker] c.c.f.c.FileUploadControllerTest         : Starting FileUploadControllerTest using Java 17.0.18 with PID 3932 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-file-service)
+2026-05-14T22:53:08.197-05:00  INFO 3932 --- [circleguard-file-service] [    Test worker] c.c.f.c.FileUploadControllerTest         : No active profile set, falling back to 1 default profile: "default"
+2026-05-14T22:53:10.504-05:00  INFO 3932 --- [circleguard-file-service] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-14T22:53:10.505-05:00  INFO 3932 --- [circleguard-file-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-14T22:53:10.509-05:00  INFO 3932 --- [circleguard-file-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-05-14T22:53:10.556-05:00  INFO 3932 --- [circleguard-file-service] [    Test worker] c.c.f.c.FileUploadControllerTest         : Started FileUploadControllerTest in 2.822 seconds (process running for 4.217)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

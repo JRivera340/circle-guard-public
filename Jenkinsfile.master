@@ -46,22 +46,27 @@ pipeline {
                     sh """
                         export KUBECONFIG=${KUBECONFIG_FILE}
                         
-                        # Aplicar base y overlays si existen, o usar el deployments.yaml consolidado
-                        if [ -d "k8s/overlays/prod" ]; then
-                            kubectl apply -k k8s/overlays/prod
-                        else
-                            kubectl apply -f k8s/dev-deploy/deployments.yaml -n ${K8S_NAMESPACE}
+                        # Descargar kubectl si no está presente
+                        if ! command -v kubectl &> /dev/null; then
+                            echo "kubectl not found, downloading binary..."
+                            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                            chmod +x kubectl
+                            export PATH=$PATH:.
+                            alias kubectl='./kubectl'
                         fi
+
+                        # Usamos el archivo consolidado deployments.yaml ya que los overlays de kustomize están incompletos
+                        echo "Applying Kubernetes manifests from dev-deploy..."
+                        ./kubectl apply -f k8s/dev-deploy/deployments.yaml -n ${K8S_NAMESPACE}
                         
                         # Actualizar todas las imágenes al nuevo tag de build
-                        kubectl set image deployment/circleguard-auth-service circleguard-auth-service=${DOCKER_USER}/circleguard-auth-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
-                        kubectl set image deployment/circleguard-identity-service circleguard-identity-service=${DOCKER_USER}/circleguard-identity-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
-                        kubectl set image deployment/circleguard-form-service circleguard-form-service=${DOCKER_USER}/circleguard-form-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
-                        kubectl set image deployment/circleguard-promotion-service circleguard-promotion-service=${DOCKER_USER}/circleguard-promotion-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
-                        kubectl set image deployment/circleguard-gateway-service circleguard-gateway-service=${DOCKER_USER}/circleguard-gateway-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
-                        kubectl set image deployment/circleguard-notification-service circleguard-notification-service=${DOCKER_USER}/circleguard-notification-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
+                        echo "Updating deployment images to ${IMAGE_TAG}..."
+                        for svc in auth identity form promotion gateway notification file dashboard; do
+                            ./kubectl set image deployment/circleguard-$svc-service circleguard-$svc-service=${DOCKER_USER}/circleguard-$svc-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
+                        done
                         
-                        kubectl rollout status deployment -n ${K8S_NAMESPACE} --timeout=300s
+                        echo "Waiting for all deployments in ${K8S_NAMESPACE} to stabilize..."
+                        ./kubectl get deployments -n ${K8S_NAMESPACE} -o name | xargs -I {} ./kubectl rollout status {} -n ${K8S_NAMESPACE} --timeout=300s
                     """
                 }
             }

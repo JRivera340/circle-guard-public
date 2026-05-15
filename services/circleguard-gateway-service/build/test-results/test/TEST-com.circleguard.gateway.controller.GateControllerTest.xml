@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.circleguard.gateway.controller.GateControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-15T02:10:11.958Z" hostname="JOSHY" time="0.566">
+<testsuite name="com.circleguard.gateway.controller.GateControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:53:32.304Z" hostname="JOSHY" time="0.273">
   <properties/>
-  <testcase name="shouldReturnValidationResult()" classname="com.circleguard.gateway.controller.GateControllerTest" time="0.566"/>
-  <system-out><![CDATA[21:10:06.999 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.circleguard.gateway.controller.GateControllerTest]: GateControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-21:10:07.189 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.circleguard.gateway.GatewayServiceApplication for test class com.circleguard.gateway.controller.GateControllerTest
+  <testcase name="shouldReturnValidationResult()" classname="com.circleguard.gateway.controller.GateControllerTest" time="0.273"/>
+  <system-out><![CDATA[22:53:29.116 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.circleguard.gateway.controller.GateControllerTest]: GateControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:53:29.282 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.circleguard.gateway.GatewayServiceApplication for test class com.circleguard.gateway.controller.GateControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -13,12 +13,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.4)
 
-2026-05-14T21:10:07.967-05:00  INFO 10448 --- [circleguard-gateway-service] [    Test worker] c.c.g.controller.GateControllerTest      : Starting GateControllerTest using Java 17.0.18 with PID 10448 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-gateway-service)
-2026-05-14T21:10:07.968-05:00  INFO 10448 --- [circleguard-gateway-service] [    Test worker] c.c.g.controller.GateControllerTest      : No active profile set, falling back to 1 default profile: "default"
-2026-05-14T21:10:11.765-05:00  INFO 10448 --- [circleguard-gateway-service] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-05-14T21:10:11.767-05:00  INFO 10448 --- [circleguard-gateway-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-05-14T21:10:11.783-05:00  INFO 10448 --- [circleguard-gateway-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 7 ms
-2026-05-14T21:10:11.899-05:00  INFO 10448 --- [circleguard-gateway-service] [    Test worker] c.c.g.controller.GateControllerTest      : Started GateControllerTest in 4.571 seconds (process running for 6.268)
+2026-05-14T22:53:29.860-05:00  INFO 9964 --- [circleguard-gateway-service] [    Test worker] c.c.g.controller.GateControllerTest      : Starting GateControllerTest using Java 17.0.18 with PID 9964 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-gateway-service)
+2026-05-14T22:53:29.863-05:00  INFO 9964 --- [circleguard-gateway-service] [    Test worker] c.c.g.controller.GateControllerTest      : No active profile set, falling back to 1 default profile: "default"
+2026-05-14T22:53:32.244-05:00  INFO 9964 --- [circleguard-gateway-service] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-14T22:53:32.244-05:00  INFO 9964 --- [circleguard-gateway-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-14T22:53:32.245-05:00  INFO 9964 --- [circleguard-gateway-service] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-14T22:53:32.286-05:00  INFO 9964 --- [circleguard-gateway-service] [    Test worker] c.c.g.controller.GateControllerTest      : Started GateControllerTest in 2.887 seconds (process running for 4.297)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

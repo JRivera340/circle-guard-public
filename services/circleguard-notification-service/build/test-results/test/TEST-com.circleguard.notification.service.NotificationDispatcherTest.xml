@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.circleguard.notification.service.NotificationDispatcherTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-15T02:10:05.465Z" hostname="JOSHY" time="0.051">
+<testsuite name="com.circleguard.notification.service.NotificationDispatcherTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:54:00.959Z" hostname="JOSHY" time="0.023">
   <properties/>
-  <testcase name="shouldDispatchToAllChannelsConcurrently()" classname="com.circleguard.notification.service.NotificationDispatcherTest" time="0.051"/>
-  <system-out><![CDATA[2026-05-14T21:10:04.553-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.circleguard.notification.service.NotificationDispatcherTest]: NotificationDispatcherTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-05-14T21:10:04.556-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.circleguard.notification.NotificationApplication for test class com.circleguard.notification.service.NotificationDispatcherTest
+  <testcase name="shouldDispatchToAllChannelsConcurrently()" classname="com.circleguard.notification.service.NotificationDispatcherTest" time="0.023"/>
+  <system-out><![CDATA[2026-05-14T22:54:00.563-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.circleguard.notification.service.NotificationDispatcherTest]: NotificationDispatcherTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-14T22:54:00.563-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.circleguard.notification.NotificationApplication for test class com.circleguard.notification.service.NotificationDispatcherTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -13,33 +13,9 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.4)
 
-2026-05-14T21:10:04.592-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.s.NotificationDispatcherTest       : Starting NotificationDispatcherTest using Java 17.0.18 with PID 14020 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-notification-service)
-2026-05-14T21:10:04.593-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.s.NotificationDispatcherTest       : The following 1 profile is active: "test"
-2026-05-14T21:10:04.657-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Node -1 disconnected.
-2026-05-14T21:10:04.657-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:04.658-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:04.704-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Node -1 disconnected.
-2026-05-14T21:10:04.704-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:04.704-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-1, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:04.720-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Node -1 disconnected.
-2026-05-14T21:10:04.723-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:04.724-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-3, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:04.760-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Node -1 disconnected.
-2026-05-14T21:10:04.760-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:04.761-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:04.759-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Node -1 disconnected.
-2026-05-14T21:10:04.763-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:04.765-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:05.122-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Node -1 disconnected.
-2026-05-14T21:10:05.122-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:05.122-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-5, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:05.170-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Node -1 disconnected.
-2026-05-14T21:10:05.171-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:05.171-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-4, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:05.188-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Node -1 disconnected.
-2026-05-14T21:10:05.188-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:05.188-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-6, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:05.399-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2026-05-14T22:54:00.589-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] c.c.n.s.NotificationDispatcherTest       : Starting NotificationDispatcherTest using Java 17.0.18 with PID 11104 (started by river in C:\Users\river\Desktop\circle-guard-public\services\circleguard-notification-service)
+2026-05-14T22:54:00.589-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] c.c.n.s.NotificationDispatcherTest       : The following 1 profile is active: "test"
+2026-05-14T22:54:00.929-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -133,11 +109,11 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-2026-05-14T21:10:05.406-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
-2026-05-14T21:10:05.406-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
-2026-05-14T21:10:05.406-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778811005406
-2026-05-14T21:10:05.406-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Subscribed to topic(s): alert.priority
-2026-05-14T21:10:05.411-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2026-05-14T22:54:00.934-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
+2026-05-14T22:54:00.934-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
+2026-05-14T22:54:00.934-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778817240934
+2026-05-14T22:54:00.934-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Subscribed to topic(s): alert.priority
+2026-05-14T22:54:00.937-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -231,14 +207,14 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-2026-05-14T21:10:05.412-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Node -1 disconnected.
-2026-05-14T21:10:05.412-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:05.412-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:05.423-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
-2026-05-14T21:10:05.424-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
-2026-05-14T21:10:05.424-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778811005423
-2026-05-14T21:10:05.424-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Subscribed to topic(s): circle.fenced
-2026-05-14T21:10:05.430-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2026-05-14T22:54:00.943-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
+2026-05-14T22:54:00.943-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
+2026-05-14T22:54:00.943-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778817240943
+2026-05-14T22:54:00.943-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Subscribed to topic(s): circle.fenced
+2026-05-14T22:54:00.943-05:00  INFO 11104 --- [circleguard-notification-service] [ntainer#2-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Cluster ID: 5sQPNAkxRX6MZQ3PwPIBVA
+2026-05-14T22:54:00.943-05:00  INFO 11104 --- [circleguard-notification-service] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] Discovered group coordinator host.docker.internal:9092 (id: 2147483646 rack: null)
+2026-05-14T22:54:00.944-05:00  INFO 11104 --- [circleguard-notification-service] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-priority-group-7, groupId=notification-priority-group] (Re-)joining group
+2026-05-14T22:54:00.945-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -332,19 +308,19 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-2026-05-14T21:10:05.432-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Node -1 disconnected.
-2026-05-14T21:10:05.432-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:05.432-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:05.437-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
-2026-05-14T21:10:05.437-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
-2026-05-14T21:10:05.439-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778811005437
-2026-05-14T21:10:05.448-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Subscribed to topic(s): promotion.status.changed
-2026-05-14T21:10:05.461-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.s.NotificationDispatcherTest       : Started NotificationDispatcherTest in 0.902 seconds (process running for 11.769)
-2026-05-14T21:10:05.463-05:00  INFO 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Node -1 disconnected.
-2026-05-14T21:10:05.464-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-2026-05-14T21:10:05.464-05:00  WARN 14020 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2026-05-14T21:10:05.482-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.service.NotificationDispatcher     : Dispatching contextual multi-channel notifications for user: user-123 with status: Your health status has changed.
-2026-05-14T21:10:05.497-05:00  INFO 14020 --- [circleguard-notification-service] [    Test worker] c.c.n.service.NotificationDispatcher     : Multi-channel dispatch completed successfully for user: user-123
+2026-05-14T22:54:00.950-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.6.1
+2026-05-14T22:54:00.950-05:00  INFO 11104 --- [circleguard-notification-service] [ntainer#0-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Cluster ID: 5sQPNAkxRX6MZQ3PwPIBVA
+2026-05-14T22:54:00.950-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 5e3c2b738d253ff5
+2026-05-14T22:54:00.950-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1778817240950
+2026-05-14T22:54:00.950-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] fkaConsumerFactory$ExtendedKafkaConsumer : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Subscribed to topic(s): promotion.status.changed
+2026-05-14T22:54:00.951-05:00  INFO 11104 --- [circleguard-notification-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] Discovered group coordinator host.docker.internal:9092 (id: 2147483646 rack: null)
+2026-05-14T22:54:00.952-05:00  INFO 11104 --- [circleguard-notification-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-group-8, groupId=notification-group] (Re-)joining group
+2026-05-14T22:54:00.956-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] c.c.n.s.NotificationDispatcherTest       : Started NotificationDispatcherTest in 0.388 seconds (process running for 8.393)
+2026-05-14T22:54:00.958-05:00  INFO 11104 --- [circleguard-notification-service] [ntainer#1-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Cluster ID: 5sQPNAkxRX6MZQ3PwPIBVA
+2026-05-14T22:54:00.959-05:00  INFO 11104 --- [circleguard-notification-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] Discovered group coordinator host.docker.internal:9092 (id: 2147483646 rack: null)
+2026-05-14T22:54:00.960-05:00  INFO 11104 --- [circleguard-notification-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-group-9, groupId=notification-group] (Re-)joining group
+2026-05-14T22:54:00.967-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] c.c.n.service.NotificationDispatcher     : Dispatching contextual multi-channel notifications for user: user-123 with status: Your health status has changed.
+2026-05-14T22:54:00.970-05:00  INFO 11104 --- [circleguard-notification-service] [    Test worker] c.c.n.service.NotificationDispatcher     : Multi-channel dispatch completed successfully for user: user-123
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

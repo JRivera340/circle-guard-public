@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="UT-5: HealthStatusService — Fence Window Enforcement" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:54:27.865Z" hostname="JOSHY" time="0.403">
+  <properties/>
+  <testcase name="UT-5b: Usuario PROBABLE dentro de ventana → FenceException también" classname="com.circleguard.promotion.service.HealthStatusServiceFenceTest" time="0.387"/>
+  <testcase name="UT-5c: Admin override → checkFenceWindow() NO se consulta" classname="com.circleguard.promotion.service.HealthStatusServiceFenceTest" time="0.005"/>
+  <testcase name="UT-5a: Usuario SUSPECT dentro de ventana de 14 días → FenceException" classname="com.circleguard.promotion.service.HealthStatusServiceFenceTest" time="0.004"/>
+  <testcase name="UT-5d: Usuario ACTIVE sin fence window → resolución sin excepción" classname="com.circleguard.promotion.service.HealthStatusServiceFenceTest" time="0.005"/>
+  <system-out><![CDATA[2026-05-14T22:54:28.251-05:00  INFO 15364 --- [circleguard-promotion-service] [    Test worker] c.c.p.service.HealthStatusService        : Resolving status for user: test-anon-002 (Admin Override: false)
+2026-05-14T22:54:28.254-05:00  INFO 15364 --- [circleguard-promotion-service] [    Test worker] c.c.p.service.HealthStatusService        : Resolving status for user: test-anon-003 (Admin Override: true)
+2026-05-14T22:54:28.258-05:00  INFO 15364 --- [circleguard-promotion-service] [    Test worker] c.c.p.service.HealthStatusService        : Resolving status for user: test-anon-001 (Admin Override: false)
+2026-05-14T22:54:28.266-05:00  INFO 15364 --- [circleguard-promotion-service] [    Test worker] c.c.p.service.HealthStatusService        : Resolving status for user: test-anon-004 (Admin Override: false)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

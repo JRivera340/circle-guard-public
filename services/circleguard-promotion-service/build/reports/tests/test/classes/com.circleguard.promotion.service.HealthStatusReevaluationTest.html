@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.005s</div>
+<div class="counter">0.001s</div>
 <p>duration</p>
 </div>
 </td>
@@ -76,10 +76,8 @@
 <a name="initializationError"></a>
 <h3 class="failures">initializationError</h3>
 <span class="code">
-<pre>java.lang.IllegalStateException: Could not find a valid Docker environment. Please see logs and check configuration
-	at org.testcontainers.dockerclient.DockerClientProviderStrategy.lambda$getFirstValidStrategy$7(DockerClientProviderStrategy.java:277)
-	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
-	at org.testcontainers.dockerclient.DockerClientProviderStrategy.getFirstValidStrategy(DockerClientProviderStrategy.java:268)
+<pre>java.lang.IllegalStateException: Previous attempts to find a Docker environment failed. Will not retry. Please see logs and check configuration
+	at org.testcontainers.dockerclient.DockerClientProviderStrategy.getFirstValidStrategy(DockerClientProviderStrategy.java:232)
 	at org.testcontainers.DockerClientFactory.getOrInitializeStrategy(DockerClientFactory.java:152)
 	at org.testcontainers.DockerClientFactory.client(DockerClientFactory.java:194)
 	at org.testcontainers.DockerClientFactory$1.getDockerClient(DockerClientFactory.java:106)
@@ -173,7 +171,7 @@
 </thead>
 <tr>
 <td class="failures">initializationError</td>
-<td class="failures">0.005s</td>
+<td class="failures">0.001s</td>
 <td class="failures">failed</td>
 </tr>
 </table>
@@ -181,14 +179,8 @@
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>21:23:24.516 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.circleguard.promotion.service.HealthStatusReevaluationTest]: HealthStatusReevaluationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-21:23:24.800 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.circleguard.promotion.PromotionApplication for test class com.circleguard.promotion.service.HealthStatusReevaluationTest
-21:23:25.055 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
-21:23:25.058 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
-21:23:25.956 [Test worker] INFO org.testcontainers.dockerclient.DockerMachineClientProviderStrategy -- docker-machine executable was not found on PATH ([C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot\bin, C:\Python314\Scripts\, C:\Python314\, C:\windows\system32, C:\windows, C:\windows\System32\Wbem, C:\windows\System32\WindowsPowerShell\v1.0\, C:\windows\System32\OpenSSH\, C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common, C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR, C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps, C:\Program Files\HP\OMEN-Broadcast\Common, C:\Program Files\Git\cmd, C:\Program Files\cursor\resources\app\bin, C:\Program Files\nodejs\, C:\ProgramData\chocolatey\bin, C:\Program Files\Warp\bin, C:\Program Files\Docker\Docker\resources\bin, C:\Program Files (x86)\ZeroTier\One\, C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot\bin, C:\Users\river\AppData\Local\Microsoft\WindowsApps, C:\Users\river\AppData\Local\Programs\Microsoft VS Code\bin, C:\Users\river\AppData\Roaming\npm, C:\Users\river\AppData\Local\Programs\Antigravity\bin, C:\Users\river\AppData\Local\Microsoft\WinGet\Packages\Helm.Helm_Microsoft.Winget.Source_8wekyb3d8bbwe\windows-amd64])
-21:23:25.957 [Test worker] ERROR org.testcontainers.dockerclient.DockerClientProviderStrategy -- Could not find a valid Docker environment. Please check configuration. Attempted configurations were:
-	NpipeSocketClientProviderStrategy: failed with exception BadRequestException (Status 400: {&quot;ID&quot;:&quot;&quot;,&quot;Containers&quot;:0,&quot;ContainersRunning&quot;:0,&quot;ContainersPaused&quot;:0,&quot;ContainersStopped&quot;:0,&quot;Images&quot;:0,&quot;Driver&quot;:&quot;&quot;,&quot;DriverStatus&quot;:null,&quot;Plugins&quot;:{&quot;Volume&quot;:null,&quot;Network&quot;:null,&quot;Authorization&quot;:null,&quot;Log&quot;:null},&quot;MemoryLimit&quot;:false,&quot;SwapLimit&quot;:false,&quot;CpuCfsPeriod&quot;:false,&quot;CpuCfsQuota&quot;:false,&quot;CPUShares&quot;:false,&quot;CPUSet&quot;:false,&quot;PidsLimit&quot;:false,&quot;IPv4Forwarding&quot;:false,&quot;Debug&quot;:false,&quot;NFd&quot;:0,&quot;OomKillDisable&quot;:false,&quot;NGoroutines&quot;:0,&quot;SystemTime&quot;:&quot;&quot;,&quot;LoggingDriver&quot;:&quot;&quot;,&quot;CgroupDriver&quot;:&quot;&quot;,&quot;NEventsListener&quot;:0,&quot;KernelVersion&quot;:&quot;&quot;,&quot;OperatingSystem&quot;:&quot;&quot;,&quot;OSVersion&quot;:&quot;&quot;,&quot;OSType&quot;:&quot;&quot;,&quot;Architecture&quot;:&quot;&quot;,&quot;IndexServerAddress&quot;:&quot;&quot;,&quot;RegistryConfig&quot;:null,&quot;NCPU&quot;:0,&quot;MemTotal&quot;:0,&quot;GenericResources&quot;:null,&quot;DockerRootDir&quot;:&quot;&quot;,&quot;HttpProxy&quot;:&quot;&quot;,&quot;HttpsProxy&quot;:&quot;&quot;,&quot;NoProxy&quot;:&quot;&quot;,&quot;Name&quot;:&quot;&quot;,&quot;Labels&quot;:[&quot;com.docker.desktop.address=npipe://\\\\.\\pipe\\docker_cli&quot;],&quot;ExperimentalBuild&quot;:false,&quot;ServerVersion&quot;:&quot;&quot;,&quot;Runtimes&quot;:null,&quot;DefaultRuntime&quot;:&quot;&quot;,&quot;Swarm&quot;:{&quot;NodeID&quot;:&quot;&quot;,&quot;NodeAddr&quot;:&quot;&quot;,&quot;LocalNodeState&quot;:&quot;&quot;,&quot;ControlAvailable&quot;:false,&quot;Error&quot;:&quot;&quot;,&quot;RemoteManagers&quot;:null},&quot;LiveRestoreEnabled&quot;:false,&quot;Isolation&quot;:&quot;&quot;,&quot;InitBinary&quot;:&quot;&quot;,&quot;ContainerdCommit&quot;:{&quot;ID&quot;:&quot;&quot;},&quot;RuncCommit&quot;:{&quot;ID&quot;:&quot;&quot;},&quot;InitCommit&quot;:{&quot;ID&quot;:&quot;&quot;},&quot;SecurityOptions&quot;:null,&quot;CDISpecDirs&quot;:null,&quot;Warnings&quot;:null})As no valid configuration was found, execution cannot continue.
-See https://java.testcontainers.org/on_failure.html for more details.
+<pre>2026-05-14T22:54:27.839-05:00  INFO 15364 --- [circleguard-promotion-service] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.circleguard.promotion.service.HealthStatusReevaluationTest]: HealthStatusReevaluationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-14T22:54:27.843-05:00  INFO 15364 --- [circleguard-promotion-service] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.circleguard.promotion.PromotionApplication for test class com.circleguard.promotion.service.HealthStatusReevaluationTest
 </pre>
 </span>
 </div>
@@ -200,7 +192,7 @@ See https://java.testcontainers.org/on_failure.html for more details.
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14</a> at 14/05/2026, 9:23:26 p. m.</p>
+<a href="https://www.gradle.org">Gradle 8.14</a> at 14/05/2026, 10:54:34 p. m.</p>
 </div>
 </div>
 </body>

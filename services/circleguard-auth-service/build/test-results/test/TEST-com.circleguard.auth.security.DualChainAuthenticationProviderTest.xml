@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="UT-4: DualChainAuthenticationProvider — LDAP Fallback" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-05-15T01:53:03.564Z" hostname="JOSHY" time="0.133">
+<testsuite name="UT-4: DualChainAuthenticationProvider — LDAP Fallback" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:52:51.676Z" hostname="JOSHY" time="0.153">
   <properties/>
-  <testcase name="Ambos proveedores fallan debe propagar excepción del proveedor local" classname="com.circleguard.auth.security.DualChainAuthenticationProviderTest" time="0.112"/>
+  <testcase name="Ambos proveedores fallan debe propagar excepción del proveedor local" classname="com.circleguard.auth.security.DualChainAuthenticationProviderTest" time="0.125"/>
   <testcase name="supports() debe retornar false para tipos de autenticación no soportados" classname="com.circleguard.auth.security.DualChainAuthenticationProviderTest" time="0.002"/>
-  <testcase name="LDAP exitoso debe retornar autenticación sin llamar al proveedor local" classname="com.circleguard.auth.security.DualChainAuthenticationProviderTest" time="0.011"/>
-  <testcase name="supports() debe retornar true para UsernamePasswordAuthenticationToken" classname="com.circleguard.auth.security.DualChainAuthenticationProviderTest" time="0.003"/>
-  <testcase name="Fallo LDAP debe activar fallback al proveedor local" classname="com.circleguard.auth.security.DualChainAuthenticationProviderTest" time="0.002"/>
+  <testcase name="LDAP exitoso debe retornar autenticación sin llamar al proveedor local" classname="com.circleguard.auth.security.DualChainAuthenticationProviderTest" time="0.01"/>
+  <testcase name="supports() debe retornar true para UsernamePasswordAuthenticationToken" classname="com.circleguard.auth.security.DualChainAuthenticationProviderTest" time="0.005"/>
+  <testcase name="Fallo LDAP debe activar fallback al proveedor local" classname="com.circleguard.auth.security.DualChainAuthenticationProviderTest" time="0.005"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

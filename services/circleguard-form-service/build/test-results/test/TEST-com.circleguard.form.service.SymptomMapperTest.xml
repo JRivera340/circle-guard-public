@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="UT-2: SymptomMapper — Symptom Detection Coverage" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:53:24.188Z" hostname="JOSHY" time="0.029">
+  <properties/>
+  <testcase name="UT-2d: keyword 'cough' con YES → detectado" classname="com.circleguard.form.service.SymptomMapperTest" time="0.011"/>
+  <testcase name="YES_NO fiebre con YES → detectado como sintomático" classname="com.circleguard.form.service.SymptomMapperTest" time="0.003"/>
+  <testcase name="UT-2c: responses=null → false sin NullPointerException" classname="com.circleguard.form.service.SymptomMapperTest" time="0.005"/>
+  <testcase name="UT-2b: MULTI_CHOICE vacío → no detectado" classname="com.circleguard.form.service.SymptomMapperTest" time="0.001"/>
+  <testcase name="UT-2a: MULTI_CHOICE con síntomas seleccionados → detectado" classname="com.circleguard.form.service.SymptomMapperTest" time="0.001"/>
+  <testcase name="YES_NO fiebre con NO → no detectado" classname="com.circleguard.form.service.SymptomMapperTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

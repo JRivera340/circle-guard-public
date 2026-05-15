@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="UT-1: QrTokenService — Token Expiration Validation" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-05-15T01:53:03.698Z" hostname="JOSHY" time="0.107">
+<testsuite name="UT-1: QrTokenService — Token Expiration Validation" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-05-15T03:52:51.833Z" hostname="JOSHY" time="0.126">
   <properties/>
-  <testcase name="Token expirado debe lanzar ExpiredJwtException" classname="com.circleguard.auth.service.QrTokenServiceTest" time="0.09"/>
-  <testcase name="Token generado debe contener anonymousId como subject" classname="com.circleguard.auth.service.QrTokenServiceTest" time="0.007"/>
-  <testcase name="Token válido dentro del TTL debe parsearse sin excepción" classname="com.circleguard.auth.service.QrTokenServiceTest" time="0.005"/>
+  <testcase name="Token expirado debe lanzar ExpiredJwtException" classname="com.circleguard.auth.service.QrTokenServiceTest" time="0.107"/>
+  <testcase name="Token generado debe contener anonymousId como subject" classname="com.circleguard.auth.service.QrTokenServiceTest" time="0.006"/>
+  <testcase name="Token válido dentro del TTL debe parsearse sin excepción" classname="com.circleguard.auth.service.QrTokenServiceTest" time="0.006"/>
   <testcase name="Dos tokens para el mismo usuario con distinto TTL deben ser distintos" classname="com.circleguard.auth.service.QrTokenServiceTest" time="0.004"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
