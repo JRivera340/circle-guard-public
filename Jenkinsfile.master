@@ -1,11 +1,5 @@
 pipeline {
-    agent { label 'docker' }
-    
-    tools {
-        // Intentamos cargar Docker si está configurado como herramienta global
-        docker 'docker'
-    }
-    
+    agent any
     
     environment {
         DOCKER_REGISTRY = 'docker.io'
@@ -36,22 +30,11 @@ pipeline {
             }
         }
 
-        stage('Docker Build & Push') {
+        stage('Docker Build & Push (via Jib)') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'f51e7c5e-3ac2-491a-a31b-73fd79b7d141', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
-                    
-                    script {
-                        def services = [
-                            'auth-service', 'identity-service', 'form-service', 
-                            'promotion-service', 'gateway-service', 'notification-service'
-                        ]
-                        for (service in services) {
-                            echo "Building ${service}..."
-                            sh "docker build -t ${DOCKER_USER}/circleguard-${service}:${IMAGE_TAG} ./services/circleguard-${service}"
-                            sh "docker push ${DOCKER_USER}/circleguard-${service}:${IMAGE_TAG}"
-                        }
-                    }
+                    // Jib construye y pushea directamente usando las credenciales de entorno
+                    sh './gradlew jib --no-daemon'
                 }
             }
         }
