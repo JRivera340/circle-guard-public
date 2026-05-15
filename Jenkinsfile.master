@@ -55,7 +55,9 @@ pipeline {
                         fi
 
                         # Usamos el archivo consolidado deployments.yaml ya que los overlays de kustomize están incompletos
-                        echo "Applying Kubernetes manifests from dev-deploy..."
+                        # Cambiamos dinámicamente el namespace en el YAML para que coincida con el entorno de destino
+                        echo "Applying Kubernetes manifests from dev-deploy (overriding namespace to ${K8S_NAMESPACE})..."
+                        sed -i "s/namespace: circleguard-dev/namespace: ${K8S_NAMESPACE}/g" k8s/dev-deploy/deployments.yaml
                         ./kubectl apply -f k8s/dev-deploy/deployments.yaml -n ${K8S_NAMESPACE}
                         
                         # Actualizar todas las imágenes al nuevo tag de build
