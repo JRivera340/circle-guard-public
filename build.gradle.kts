@@ -48,22 +48,24 @@ subprojects {
         useJUnitPlatform()
     }
 
-    apply(plugin = "com.google.cloud.tools.jib")
-    configure<com.google.cloud.tools.jib.gradle.JibExtension> {
-        from {
-            image = "eclipse-temurin:17-jre-alpine"
-        }
-        to {
-            image = "jrivera340/${project.name}"
-            tags = setOf("v1.0.${System.getenv("BUILD_NUMBER") ?: "latest"}")
-            auth {
-                username = System.getenv("DOCKER_USER") ?: ""
-                password = System.getenv("DOCKER_PASS") ?: ""
+    if (project.path.startsWith(":services:") && project.name != "services") {
+        apply(plugin = "com.google.cloud.tools.jib")
+        configure<com.google.cloud.tools.jib.gradle.JibExtension> {
+            from {
+                image = "eclipse-temurin:17-jre-alpine"
             }
-        }
-        container {
-            jvmFlags = listOf("-Xms512m", "-Xdebug")
-            ports = listOf("8080") // Jib suele detectarlos, pero forzamos por si acaso
+            to {
+                image = "jrivera340/${project.name}"
+                tags = setOf("v1.0.${System.getenv("BUILD_NUMBER") ?: "latest"}")
+                auth {
+                    username = System.getenv("DOCKER_USER") ?: ""
+                    password = System.getenv("DOCKER_PASS") ?: ""
+                }
+            }
+            container {
+                jvmFlags = listOf("-Xms512m", "-Xdebug")
+                ports = listOf("8080")
+            }
         }
     }
 }
