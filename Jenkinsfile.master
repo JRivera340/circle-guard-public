@@ -1,0 +1,163 @@
+pipeline {
+    agent {
+        kubernetes {
+            label 'docker-builder'
+            defaultContainer 'docker'
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: docker
+    image: docker:24-dind
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: docker-sock
+      mountPath: /var/run/docker.sock
+  - name: kubectl
+    image: bitnami/kubectl:1.29
+    command: ['cat']
+    tty: true
+  - name: gradle
+    image: eclipse-temurin:21-jdk-jammy
+    command: ['cat']
+    tty: true
+  - name: trivy
+    image: aquasec/trivy:0.48.3
+    command: ['cat']
+    tty: true
+  volumes:
+  - name: docker-sock
+    hostPath:
+      path: /var/run/docker.sock
+"""
+        }
+    }
+
+    environment {
+        DOCKER_ORG      = 'jrivera340'
+        K8S_NAMESPACE   = 'circleguard-prod'
+        IMAGE_TAG       = "v1.0.0-${env.BUILD_NUMBER}"
+        SERVICES        = 'circleguard-auth-service circleguard-identity-service circleguard-form-service circleguard-promotion-service circleguard-gateway-service circleguard-notification-service'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Compilación y Tests Unitarios') {
+            steps {
+                container('gradle') {
+                    sh './gradlew test --no-daemon'
+                }
+            }
+            post {
+                always {
+                    junit '**/build/test-results/test/*.xml'
+                }
+            }
+        }
+
+        stage('Build JARs') {
+            steps {
+                container('gradle') {
+                    sh './gradlew bootJar -x test'
+                }
+            }
+        }
+
+        stage('Seguridad (Trivy)') {
+            steps {
+                container('trivy') {
+                    echo "Escaneando vulnerabilidades en el código base..."
+                    sh 'trivy fs . --severity HIGH,CRITICAL --exit-code 0'
+                }
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                container('docker') {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                        sh 'echo $PASS | docker login -u $USER --password-stdin'
+                        script {
+                            def services = env.SERVICES.split(' ')
+                            for (svc in services) {
+                                sh "docker build -t ${DOCKER_ORG}/${svc}:${IMAGE_TAG} -f services/${svc}/Dockerfile ."
+                                sh "docker push ${DOCKER_ORG}/${svc}:${IMAGE_TAG}"
+                                sh "docker tag ${DOCKER_ORG}/${svc}:${IMAGE_TAG} ${DOCKER_ORG}/${svc}:latest"
+                                sh "docker push ${DOCKER_ORG}/${svc}:latest"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Despliegue a Producción') {
+            steps {
+                container('kubectl') {
+                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                        sh '''
+                            export KUBECONFIG=$KUBECONFIG
+                            kubectl apply -k k8s/overlays/prod
+                            kubectl rollout status deployment -n ${K8S_NAMESPACE} --timeout=300s
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Pruebas E2E') {
+            steps {
+                container('gradle') {
+                    sh '''
+                        pip3 install requests pytest || true
+                        python3 -m pytest tests/e2e/test_e2e_flows.py --junit-xml=e2e-results.xml || true
+                    '''
+                    junit 'e2e-results.xml'
+                }
+            }
+        }
+
+        stage('Pruebas de Carga (Locust)') {
+            steps {
+                container('kubectl') {
+                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                        sh '''
+                            export KUBECONFIG=$KUBECONFIG
+                            kubectl apply -f k8s/jobs/locust-job.yaml -n ${K8S_NAMESPACE}
+                            kubectl wait --for=condition=complete job/locust-perf-test -n ${K8S_NAMESPACE} --timeout=600s
+                            kubectl logs job/locust-perf-test -n ${K8S_NAMESPACE} > locust-results.txt
+                            kubectl delete job/locust-perf-test -n ${K8S_NAMESPACE}
+                        '''
+                        archiveArtifacts artifacts: 'locust-results.txt'
+                    }
+                }
+            }
+        }
+
+        stage('Generar Release Notes') {
+            steps {
+                sh '''
+                    chmod +x scripts/generate-release-notes.sh
+                    ./scripts/generate-release-notes.sh ${IMAGE_TAG}
+                '''
+                archiveArtifacts artifacts: 'RELEASE_NOTES_*.md'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Lanzamiento completado con éxito: ${IMAGE_TAG}"
+        }
+        failure {
+            echo "❌ Fallo en el pipeline de producción."
+        }
+    }
+}
