@@ -65,10 +65,10 @@ subprojects {
             container {
                 mainClass = "com.circleguard.${project.name.replace("circleguard-", "").replace("-service", "")}.${project.name.replace("circleguard-", "").split("-").map { it.replaceFirstChar { it.uppercase() } }.joinToString("")}Application"
                 jvmFlags = listOf("-Xms512m", "-Xdebug")
-                ports = listOf(8080)
+                ports = listOf("8080")
             }
-            allowInsecureRegistries = true
-            httpTimeout = 30000
+
+
         }
     }
 }
