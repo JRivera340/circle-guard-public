@@ -54,10 +54,14 @@ pipeline {
                             export PATH=\$PATH:.
                         fi
 
-                        # Usamos el archivo consolidado deployments.yaml ya que los overlays de kustomize están incompletos
-                        # Cambiamos dinámicamente el namespace en el YAML para que coincida con el entorno de destino
-                        echo "Applying Kubernetes manifests from dev-deploy (overriding namespace to ${K8S_NAMESPACE})..."
+                        # Asegurar que el namespace de producción exista antes de desplegar
+                        echo "Verificando/Creando namespace: ${K8S_NAMESPACE}..."
+                        ./kubectl create namespace ${K8S_NAMESPACE} --dry-run=client -o yaml | ./kubectl apply -f -
+                        
+                        echo "Aplicando manifiestos de Kubernetes (sobreescribiendo namespace a ${K8S_NAMESPACE})..."
+                        # Usamos comillas dobles para que las variables de shell se expandan correctamente en el sed
                         sed -i "s/namespace: circleguard-dev/namespace: ${K8S_NAMESPACE}/g" k8s/dev-deploy/deployments.yaml
+                        
                         ./kubectl apply -f k8s/dev-deploy/deployments.yaml -n ${K8S_NAMESPACE}
                         
                         # Actualizar todas las imágenes al nuevo tag de build
