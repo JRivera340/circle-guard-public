@@ -346,3 +346,105 @@ spec:
       targetPort: 8082
       nodePort: 30082
   type: LoadBalancer
+---
+# ── file-service ──────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circleguard-file-service
+  namespace: circleguard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circleguard-file-service
+  template:
+    metadata:
+      labels:
+        app: circleguard-file-service
+    spec:
+      containers:
+        - name: circleguard-file-service
+          image: jrivera340/circleguard-file-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8085
+          env:
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circleguard-file-service
+  namespace: circleguard-dev
+spec:
+  selector:
+    app: circleguard-file-service
+  ports:
+    - port: 8085
+      targetPort: 8085
+      nodePort: 30085
+  type: LoadBalancer
+---
+# ── dashboard-service ─────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circleguard-dashboard-service
+  namespace: circleguard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circleguard-dashboard-service
+  template:
+    metadata:
+      labels:
+        app: circleguard-dashboard-service
+    spec:
+      containers:
+        - name: circleguard-dashboard-service
+          image: jrivera340/circleguard-dashboard-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8084
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://host.docker.internal:5432/circleguard_dashboard"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "password"
+            - name: PROMOTION_SERVICE_URL
+              value: "http://circleguard-promotion-service:8088"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "200m"
+            limits:
+              memory: "768Mi"
+              cpu: "400m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circleguard-dashboard-service
+  namespace: circleguard-dev
+spec:
+  selector:
+    app: circleguard-dashboard-service
+  ports:
+    - port: 8084
+      targetPort: 8084
+      nodePort: 30084
+  type: LoadBalancer
