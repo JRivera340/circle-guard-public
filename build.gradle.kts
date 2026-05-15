@@ -51,21 +51,24 @@ subprojects {
     if (project.path.startsWith(":services:") && project.name != "services") {
         apply(plugin = "com.google.cloud.tools.jib")
         configure<com.google.cloud.tools.jib.gradle.JibExtension> {
+            to {
+                image = "jrivera340/${project.name}"
+                tags = setOf("latest", "v1.0.${System.getenv("BUILD_NUMBER") ?: "0"}")
+                auth {
+                    username = System.getenv("DOCKER_USER")
+                    password = System.getenv("DOCKER_PASS")
+                }
+            }
             from {
                 image = "eclipse-temurin:17-jre-alpine"
             }
-            to {
-                image = "jrivera340/${project.name}"
-                tags = setOf("v1.0.${System.getenv("BUILD_NUMBER") ?: "latest"}")
-                auth {
-                    username = System.getenv("DOCKER_USER") ?: ""
-                    password = System.getenv("DOCKER_PASS") ?: ""
-                }
-            }
             container {
+                mainClass = "com.circleguard.${project.name.replace("circleguard-", "").replace("-service", "")}.${project.name.replace("circleguard-", "").split("-").map { it.replaceFirstChar { it.uppercase() } }.joinToString("")}Application"
                 jvmFlags = listOf("-Xms512m", "-Xdebug")
-                ports = listOf("8080")
+                ports = listOf(8080)
             }
+            allowInsecureRegistries = true
+            httpTimeout = 30000
         }
     }
 }
