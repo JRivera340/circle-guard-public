@@ -49,10 +49,9 @@ pipeline {
                         # Descargar kubectl si no está presente
                         if ! command -v kubectl &> /dev/null; then
                             echo "kubectl not found, downloading binary..."
-                            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                            curl -LO "https://dl.k8s.io/release/\$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
                             chmod +x kubectl
-                            export PATH=$PATH:.
-                            alias kubectl='./kubectl'
+                            export PATH=\$PATH:.
                         fi
 
                         # Usamos el archivo consolidado deployments.yaml ya que los overlays de kustomize están incompletos
@@ -62,7 +61,7 @@ pipeline {
                         # Actualizar todas las imágenes al nuevo tag de build
                         echo "Updating deployment images to ${IMAGE_TAG}..."
                         for svc in auth identity form promotion gateway notification file dashboard; do
-                            ./kubectl set image deployment/circleguard-$svc-service circleguard-$svc-service=${DOCKER_USER}/circleguard-$svc-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
+                            ./kubectl set image deployment/circleguard-\$svc-service circleguard-\$svc-service=${DOCKER_USER}/circleguard-\$svc-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
                         done
                         
                         echo "Waiting for all deployments in ${K8S_NAMESPACE} to stabilize..."
