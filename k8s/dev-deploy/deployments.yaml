@@ -209,8 +209,8 @@ spec:
               value: "admin"
             - name: SPRING_DATASOURCE_PASSWORD
               value: "password"
-            - name: SPRING_FLYWAY_REPAIR_ON_MIGRATE
-              value: "true"
+            - name: SPRING_FLYWAY_VALIDATE_ON_MIGRATE
+              value: "false"
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "host.docker.internal:9092"
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
