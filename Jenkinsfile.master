@@ -17,15 +17,12 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                // Aumentamos memoria y activamos --info para ver el progreso real
-                // Saltamos los tests de promotion-service en Jenkins porque el servidor no soporta Docker/Testcontainers
-           sh './gradlew clean test bootJar --no-daemon -Dorg.gradle.jvmargs="-Xmx2048m" -x :services:circleguard-promotion-service:test'
+                sh './gradlew clean test bootJar --no-daemon -Dorg.gradle.jvmargs="-Xmx2048m" -x :services:circleguard-promotion-service:test'
             }
         }
      
         stage('Security Scan (Trivy)') {
             steps {
-                // Escaneo de archivos (ignora errores para no bloquear el taller si no está instalado, pero reporta)
                 sh 'trivy fs --severity HIGH,CRITICAL --exit-code 0 . || echo "Trivy not found or failed, skipping scan"'
             }
         }
@@ -33,7 +30,6 @@ pipeline {
         stage('Docker Build & Push (via Jib)') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'f51e7c5e-3ac2-491a-a31b-73fd79b7d141', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    // Jib construye y pushea directamente usando las credenciales de entorno
                     sh './gradlew jib --no-daemon'
                 }
             }
@@ -41,59 +37,42 @@ pipeline {
 
         stage('Deploy to Production') {
             steps {
-                // Usamos la credencial kubeconfig para aplicar cambios
                 withCredentials([file(credentialsId: 'e34ae89e-0280-4b54-be12-ae6f974bce27', variable: 'KUBECONFIG_FILE')]) {
                     sh """
-                        export KUBECONFIG=${KUBECONFIG_FILE}
+                        export KUBECONFIG=\$KUBECONFIG_FILE
                         
-                        # Descargar kubectl si no está presente
                         if ! command -v kubectl &> /dev/null; then
-                            echo "kubectl not found, downloading binary..."
-                            curl --retry 5 --retry-delay 5 -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                            echo "kubectl not found, downloading..."
+                            curl --retry 5 --retry-delay 5 -LO "https://dl.k8s.io/release/\$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
                             chmod +x kubectl
                             export PATH=\$PATH:.
                         fi
 
-                        # Asegurar que el namespace de producción exista antes de desplegar
-                        echo "Verificando/Creando namespace: ${K8S_NAMESPACE}..."
-                        ./kubectl create namespace ${K8S_NAMESPACE} --dry-run=client -o yaml | ./kubectl apply -f -
+                        echo "Preparando namespace: \$K8S_NAMESPACE..."
+                        ./kubectl create namespace \$K8S_NAMESPACE --dry-run=client -o yaml | ./kubectl apply -f -
                         
-                        echo "Aplicando manifiestos de Kubernetes (limpiando NodePorts y sobreescribiendo namespace a ${K8S_NAMESPACE})..."
-                        # 1. Cambiamos el namespace
-                        sed -i "s/namespace: circleguard-dev/namespace: ${K8S_NAMESPACE}/g" k8s/dev-deploy/deployments.yaml
-                        # 2. Eliminamos los nodePort fijos para evitar conflictos con el entorno de dev
+                        echo "Configurando manifiestos..."
+                        sed -i "s/namespace: circleguard-dev/namespace: \$K8S_NAMESPACE/g" k8s/dev-deploy/deployments.yaml
                         sed -i '/nodePort:/d' k8s/dev-deploy/deployments.yaml
                         
-                        ./kubectl apply -f k8s/dev-deploy/deployments.yaml -n ${K8S_NAMESPACE}
+                        ./kubectl apply -f k8s/dev-deploy/deployments.yaml -n \$K8S_NAMESPACE
                         
-                        # Actualizar todas las imágenes al nuevo tag de build
-                        echo "Updating deployment images to ${IMAGE_TAG}..."
-                        for svc in auth identity form promotion gateway notification file dashboard; do
-                            ./kubectl set image deployment/circleguard-\$svc-service circleguard-\$svc-service=${DOCKER_USER}/circleguard-\$svc-service:${IMAGE_TAG} -n ${K8S_NAMESPACE}
+                        echo "Actualizando imágenes..."
+                        for svc in identity auth gateway form promotion notification dashboard file; do
+                            ./kubectl set image deployment/circleguard-\$svc-service circleguard-\$svc-service=\$DOCKER_USER/circleguard-\$svc-service:\$IMAGE_TAG -n \$K8S_NAMESPACE
                         done
                         
-                        echo "Waiting for all deployments in ${K8S_NAMESPACE} to stabilize..."
-                        ./kubectl get deployments -n ${K8S_NAMESPACE} -o name | xargs -I {} ./kubectl rollout status {} -n ${K8S_NAMESPACE} --timeout=300s
+                        echo "Verificando estabilidad..."
+                        ./kubectl rollout status deployment/circleguard-auth-service -n \$K8S_NAMESPACE --timeout=300s
                     """
                 }
             }
         }
-
-        stage('Release Notes') {
-            steps {
-                sh "chmod +x scripts/generate-release-notes.sh"
-                sh "./scripts/generate-release-notes.sh ${IMAGE_TAG}"
-                archiveArtifacts artifacts: "RELEASE_NOTES_*.md", fingerprint: true
-            }
-        }
     }
-
+    
     post {
-        success {
-            echo "Build #${BUILD_NUMBER} successful! Release ${IMAGE_TAG} is live."
-        }
-        failure {
-            echo "Build #${BUILD_NUMBER} failed. Check console output."
+        always {
+            echo "Build #${BUILD_NUMBER} finalizado."
         }
     }
 }
