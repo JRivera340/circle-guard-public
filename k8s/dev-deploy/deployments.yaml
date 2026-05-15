@@ -10,6 +10,8 @@ spec:
   selector:
     matchLabels:
       app: circleguard-identity-service
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -69,6 +71,8 @@ spec:
   selector:
     matchLabels:
       app: circleguard-auth-service
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -130,6 +134,8 @@ spec:
   selector:
     matchLabels:
       app: circleguard-gateway-service
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -183,6 +189,8 @@ spec:
   selector:
     matchLabels:
       app: circleguard-form-service
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -238,6 +246,8 @@ spec:
   selector:
     matchLabels:
       app: circleguard-promotion-service
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -303,6 +313,8 @@ spec:
   selector:
     matchLabels:
       app: circleguard-notification-service
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -358,6 +370,8 @@ spec:
   selector:
     matchLabels:
       app: circleguard-file-service
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -374,8 +388,8 @@ spec:
               value: "health,info"
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              memory: "128Mi"
+              cpu: "50m"
             limits:
               memory: "512Mi"
               cpu: "200m"
@@ -405,6 +419,8 @@ spec:
   selector:
     matchLabels:
       app: circleguard-dashboard-service
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -429,11 +445,11 @@ spec:
               value: "health,info"
           resources:
             requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
               memory: "512Mi"
               cpu: "200m"
-            limits:
-              memory: "768Mi"
-              cpu: "400m"
 ---
 apiVersion: v1
 kind: Service
