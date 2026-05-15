@@ -17,7 +17,8 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh './gradlew clean test bootJar --no-daemon'
+                // Aumentamos memoria y activamos --info para ver el progreso real
+                sh './gradlew clean test bootJar --no-daemon -Dorg.gradle.jvmargs="-Xmx2048m" --info'
             }
         }
 
