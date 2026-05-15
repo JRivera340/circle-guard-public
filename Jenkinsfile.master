@@ -1,5 +1,11 @@
 pipeline {
-    agent any
+    agent { label 'docker' }
+    
+    tools {
+        // Intentamos cargar Docker si está configurado como herramienta global
+        docker 'docker'
+    }
+    
     
     environment {
         DOCKER_REGISTRY = 'docker.io'
