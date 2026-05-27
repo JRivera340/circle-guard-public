@@ -1,15 +1,15 @@
-# 6. Análisis de Resultados de Pruebas
+# 6. Resultados de Pruebas
 
-## Resumen Ejecutivo
+## Resumen
 
-| Tipo de Prueba | Herramienta | Cobertura / Resultado |
-|----------------|-------------|----------------------|
+| Tipo de Prueba | Herramienta | Resultado |
+|----------------|-------------|-----------|
 | Pruebas Unitarias | JUnit 5 + Spring Test | Auth: 4 tests ✅, Form: 4 tests ✅ |
 | Pruebas de Integración | Testcontainers + PostgreSQL real | Auth: 3 tests ✅, Form: 3 tests ✅ |
 | Pruebas E2E | pytest + requests | 8 flujos completos ✅ |
-| Pruebas de Rendimiento | Locust | 50 usuarios concurrentes, <500ms P95 |
+| Pruebas de Rendimiento | Locust | 50 usuarios concurrentes, P95 < 500ms |
 | Análisis Estático | SonarQube | Calidad de código continua por rama |
-| Escaneo Seguridad Contenedores | Trivy | HIGH/CRITICAL reportados por imagen |
+| Escaneo de Contenedores | Trivy | HIGH/CRITICAL reportados por imagen |
 | Pruebas de Seguridad Web | OWASP ZAP | Baseline scan en staging |
 | Cobertura de Código | JaCoCo | Reportes XML/HTML por servicio |
 
@@ -17,10 +17,8 @@
 
 ## 1. Pruebas Unitarias
 
-### Servicios con cobertura unitaria
-
 **circleguard-auth-service** (`src/test/java/com/circleguard/auth/`):
-- `LoginControllerTest` — validación de endpoint `/api/v1/auth/login` con MockMvc
+- `LoginControllerTest` — validación del endpoint `/api/v1/auth/login` con MockMvc
 - `DualChainAuthenticationProviderTest` — lógica de autenticación dual (LDAP + DB)
 - `QrTokenServiceTest` — generación y validación de tokens QR
 - `TokenValidationUnitTest` — validación de JWT (expiración, firma, claims)
@@ -42,7 +40,7 @@
 
 ## 2. Pruebas de Integración
 
-Implementadas con **Testcontainers** — levantan contenedores Docker reales de PostgreSQL durante el test, garantizando que el código interactúa con una base de datos real (no mocks).
+Implementadas con **Testcontainers**: levantan un contenedor Docker real de PostgreSQL durante el test, de modo que el código interactúa con una base de datos real en lugar de mocks o H2.
 
 ### circleguard-auth-service (`AuthIntegrationTest.java`)
 
@@ -52,7 +50,7 @@ Implementadas con **Testcontainers** — levantan contenedores Docker reales de 
 | `loginWithInvalidCredentialsReturns401` | POST /login con credenciales incorrectas | HTTP 4xx |
 | `loginEndpointAcceptsJsonContentType` | POST /login verifica Content-Type de respuesta | application/json |
 
-**Contenedor:** `postgres:15-alpine` con schema `circleguard_auth`
+Contenedor: `postgres:15-alpine` con schema `circleguard_auth`
 
 ### circleguard-form-service (`FormIntegrationTest.java`)
 
@@ -62,9 +60,9 @@ Implementadas con **Testcontainers** — levantan contenedores Docker reales de 
 | `questionnairesEndpointRequiresAuth` | GET /api/v1/questionnaires sin token | HTTP 401/403 |
 | `healthSurveyEndpointRequiresAuth` | GET /api/v1/health-surveys sin token | HTTP 401/403 |
 
-**Contenedor:** `postgres:15-alpine` con Flyway repair habilitado
+Contenedor: `postgres:15-alpine` con Flyway repair habilitado para evitar que checksum conflicts paren el test.
 
-**Ventaja vs mocks:** Los tests de integración detectan problemas reales de Flyway migrations, constraints de BD, y configuración de seguridad que los tests unitarios con H2 no detectarían.
+La ventaja principal sobre mocks: estos tests detectan problemas reales de Flyway migrations, constraints de base de datos, y configuración de seguridad que los tests unitarios con H2 nunca verían.
 
 ---
 
@@ -84,14 +82,13 @@ Implementadas con **Testcontainers** — levantan contenedores Docker reales de 
 | Validación QR | Código QR → POST /qr/validate → acceso |
 | Health checks | GET /actuator/health en todos los servicios |
 | Formulario de salud | Flujo completo: login → submit encuesta |
-| Gateway routing | Verificación que gateway enruta correctamente |
+| Gateway routing | Verificar que gateway enruta correctamente |
 | Retry con reintentos | HTTPAdapter con retry para ambientes inestables |
 
 **Ejecución:**
 ```bash
 pip install requests pytest
-pytest tests/e2e/ -v \
-    --base-url=http://<STAGING_NODE_IP>:<PORT>
+pytest tests/e2e/ -v --base-url=http://<STAGING_NODE_IP>:<PORT>
 ```
 
 ---
@@ -100,25 +97,25 @@ pytest tests/e2e/ -v \
 
 **Framework:** Locust
 **Archivo:** `tests/performance/locustfile.py`
-**Escenario:** Simulación de guardias de seguridad usando el sistema
+**Escenario:** Simulación de guardias de seguridad usando el sistema en turno escolar
 
-### Comportamiento del usuario simulado
-Cada `CircleGuardUser` ejecuta:
-1. `on_start`: login con credenciales `staff_guard/password`
-2. `@task(3)`: generar QR + validar acceso (flujo principal, peso 3x)
-3. Tiempo de espera entre acciones: 1-3 segundos
+### Usuario simulado (`CircleGuardUser`)
+
+1. `on_start`: login con credenciales de prueba
+2. `@task(3)`: generar QR + validar acceso (flujo principal, peso 3x frente a otras tareas)
+3. Espera entre acciones: 1-3 segundos (simula uso humano real)
 
 ### Métricas objetivo
 
-| Métrica | Objetivo | Descripción |
-|---------|----------|-------------|
-| RPS (login) | > 10 req/s | Throughput del endpoint de autenticación |
-| P95 latencia | < 500ms | 95% de requests bajo 500ms |
-| P99 latencia | < 1000ms | 99% de requests bajo 1 segundo |
-| Error rate | < 1% | Menos del 1% de requests fallando |
-| Usuarios concurrentes | 50 | Carga representativa de turno escolar |
+| Métrica | Objetivo |
+|---------|----------|
+| RPS (login) | > 10 req/s |
+| P95 latencia | < 500ms |
+| P99 latencia | < 1000ms |
+| Error rate | < 1% |
+| Usuarios concurrentes | 50 |
 
-**Ejecución en K8s (CI):**
+**Ejecución en K8s:**
 ```bash
 kubectl apply -f k8s/jobs/locust-job.yaml -n circleguard-staging
 kubectl wait --for=condition=complete job/locust-perf-test -n circleguard-staging --timeout=900s
@@ -135,18 +132,18 @@ locust -f tests/performance/locustfile.py \
 
 ---
 
-## 5. Análisis Estático de Código (SonarQube)
+## 5. Análisis Estático (SonarQube)
 
-**Integración:** Stage `SonarQube Analysis` en Jenkinsfile (todas las ramas excepto prod)
+Integrado en el stage `SonarQube Analysis` del Jenkinsfile, corre en todas las ramas excepto prod.
 
-### Métricas analizadas
-- **Bugs:** Errores potenciales en el código
-- **Vulnerabilidades:** Problemas de seguridad en código fuente
-- **Code Smells:** Deuda técnica y malas prácticas
-- **Duplicaciones:** Código duplicado entre servicios
-- **Cobertura:** Integrado con reportes JaCoCo
+Métricas analizadas:
+- **Bugs:** errores potenciales en código
+- **Vulnerabilidades:** problemas de seguridad en código fuente
+- **Code Smells:** deuda técnica
+- **Duplicaciones:** código repetido entre servicios
+- **Cobertura:** integrada con reportes JaCoCo
 
-**Quality Gate por defecto:**
+Quality Gate configurado:
 - 0 bugs nuevos de severidad BLOCKER
 - 0 vulnerabilidades nuevas
 - Cobertura en código nuevo > 80%
@@ -156,49 +153,38 @@ locust -f tests/performance/locustfile.py \
 
 ## 6. Escaneo de Vulnerabilidades en Contenedores (Trivy)
 
-**Integración:** Stage `Trivy Scan` en Jenkinsfile después del Docker push
+Corre en el stage `Trivy Scan` del Jenkinsfile después de cada Docker push.
 
-### Severidades escaneadas
-- **HIGH** y **CRITICAL** únicamente (filtra LOW/MEDIUM para reducir ruido)
+Escanea solo severidades **HIGH** y **CRITICAL** para reducir el ruido de reportes. Detecta CVEs tanto en el sistema operativo base (Alpine, Ubuntu) como en las dependencias Java del classpath.
 
-### Por qué Trivy
-- Escanea capas del sistema operativo (Alpine, Ubuntu) + dependencias Java
-- Detecta CVEs en librerías transitivas (ej: log4j, Spring Security)
-- Salida en formato tabla legible + archivado en Jenkins
-
-**Reportes:** Archivados como `trivy-<service-name>.txt` en cada build de Jenkins
+Reportes archivados como `trivy-<service-name>.txt` en cada build de Jenkins.
 
 ---
 
 ## 7. Pruebas de Seguridad Web (OWASP ZAP)
 
-**Herramienta:** OWASP ZAP Baseline Scan
-**Integración:** Stage `OWASP ZAP Scan` en rama `staging`
-**Target:** `circleguard-gateway-service` (único punto de entrada público)
+**Stage:** `OWASP ZAP Scan` (solo rama `staging`)
+**Target:** `circleguard-gateway-service` — el único punto de entrada público
 
-### Tipo de scan: Baseline
-El scan baseline ejecuta ataques pasivos (no destructivos), identificando:
+Usa el scan baseline (pasivo, no destructivo). Identifica:
 - Headers de seguridad faltantes (X-Frame-Options, CSP, HSTS)
 - Información expuesta en respuestas de error
 - Configuraciones inseguras en endpoints públicos
 
-**Reporte:** `zap-reports/zap-report.html` archivado en Jenkins
+El flag `-I` está configurado para que el pipeline no falle por findings INFO/LOW — solo MEDIUM+ bloquearían el pipeline en futuras iteraciones.
 
-> Nota: El flag `-I` (ignore warnings) está configurado para que el pipeline no falle por findings de severidad INFO/LOW, enfocándose en MEDIUM+ como blockers futuros.
+Reporte archivado como `zap-reports/zap-report.html` en Jenkins.
 
 ---
 
 ## 8. Cobertura de Código (JaCoCo)
 
-**Integración:** Generado automáticamente al finalizar cada `./gradlew test`
+Generado automáticamente al finalizar cada `./gradlew test`.
 
-**Reportes generados por servicio:**
 ```
 services/<service>/build/reports/jacoco/test/
-├── html/index.html    ← reporte visual
-└── jacocoTestReport.xml ← para SonarQube
+├── html/index.html         ← reporte visual
+└── jacocoTestReport.xml    ← para SonarQube
 ```
 
-**Archivados en Jenkins:** `**/build/reports/jacoco/**`
-
-Los reportes XML se integran con SonarQube para mostrar cobertura por clase, método y línea en el dashboard de calidad.
+Los reportes XML se integran con SonarQube para mostrar cobertura por clase, método y línea. Archivados en Jenkins bajo `**/build/reports/jacoco/**`.

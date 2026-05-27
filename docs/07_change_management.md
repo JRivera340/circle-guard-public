@@ -1,6 +1,6 @@
 # 7. Change Management y Release Process
 
-## Proceso Formal de Gestión de Cambios
+## Proceso de Gestión de Cambios
 
 ### Clasificación de Cambios
 
@@ -10,14 +10,14 @@
 | **Normal** | Nuevas features, cambios de schema de BD | CI verde + 2 reviewers | Martes/Jueves 14-16h UTC-5 |
 | **Emergency** | Hotfix producción crítico (P0/P1) | 1 aprobador on-call | Inmediato, con post-mortem obligatorio |
 
-### Flujo Completo de un Cambio Normal
+### Flujo de un Cambio Normal
 
 ```
 1. Developer crea rama feature/* desde develop
-2. Implementa cambio + tests
+2. Implementa el cambio + tests
 3. Abre PR hacia develop
 4. CI ejecuta: lint → unit tests → SonarQube → build → Trivy scan
-5. Code review por 1 peer (mínimo)
+5. Code review por al menos 1 peer
 6. Merge a develop → auto-deploy a circleguard-dev
 7. Smoke tests automáticos en dev
 8. QA verifica en dev
@@ -26,29 +26,28 @@
 11. Code review por 2 reviewers
 12. Merge a staging → auto-deploy a circleguard-staging
 13. PR de staging → main
-14. Manual Approval Gate en Jenkins (timeout: 30 min, submitter: admin)
+14. Manual Approval Gate en Jenkins (timeout: 30 min)
 15. Deploy a circleguard-prod
-16. Post-deploy synthetic transaction validation
-17. Monitoreo en Grafana por 30 min post-deploy
+16. Validación con synthetic transaction post-deploy
+17. Monitoreo en Grafana durante 30 minutos
 ```
 
 ### Criterios de Rollback
 
 **Rollback automático** se dispara si:
-- `kubectl rollout status` falla con timeout (configurado en Jenkinsfile)
-- Post-deploy synthetic transaction retorna error
+- `kubectl rollout status` falla por timeout (configurado en el Jenkinsfile)
+- La synthetic transaction post-deploy retorna error
 
-**Rollback manual** cuando (alertas Grafana):
-- Error rate HTTP 5xx > 5% durante 5 minutos consecutivos
+**Rollback manual** cuando se detecta en Grafana:
+- Error rate HTTP 5xx > 5% durante 5 minutos seguidos
 - Latencia P99 > 2 segundos
 - CPU usage > 90% en todos los pods de un servicio
 
-**Comando de rollback:**
 ```bash
-# Rollback de un servicio específico
+# Rollback de un servicio
 kubectl rollout undo deployment/<service-name> -n circleguard-prod
 
-# Verificar que el rollback terminó
+# Verificar que terminó
 kubectl rollout status deployment/<service-name> -n circleguard-prod
 
 # Ver historial de versiones
@@ -57,47 +56,50 @@ kubectl rollout history deployment/<service-name> -n circleguard-prod
 
 ---
 
-## Semantic Versioning (SemVer)
+## Semantic Versioning
 
 Formato: `vMAJOR.MINOR.PATCH`
 
 | Tipo de cambio | Incremento | Ejemplo |
 |----------------|-----------|---------|
 | Cambio incompatible de API | MAJOR | v1.0.0 → v2.0.0 |
-| Nueva feature backwards-compatible | MINOR | v1.0.0 → v1.1.0 |
+| Nueva feature backward-compatible | MINOR | v1.0.0 → v1.1.0 |
 | Bug fix | PATCH | v1.0.0 → v1.0.1 |
 
-**Generación automática:** Stage `Git Tag` en Jenkinsfile (rama `main`) calcula automáticamente el siguiente PATCH a partir del último tag en el repositorio.
+El stage `Git Tag` en Jenkinsfile (rama `main`) calcula automáticamente el siguiente número de PATCH a partir del último tag en el repositorio.
 
 ### Conventional Commits
 
-Todos los commits siguen el formato:
+Todos los commits siguen este formato:
 ```
 <type>(<scope>): <description>
+```
 
+Ejemplos reales del proyecto:
+```
 feat(auth): add refresh token endpoint
 fix(gateway): circuit breaker not opening on timeout errors
 docs(terraform): add cost estimation for prod environment
 ci(jenkins): add Trivy scan stage
 ```
 
-Tipos: `feat`, `fix`, `docs`, `ci`, `refactor`, `test`, `chore`
+Tipos permitidos: `feat`, `fix`, `docs`, `ci`, `refactor`, `test`, `chore`
 
 ---
 
-## Sistema de Etiquetado de Releases
+## Sistema de Releases
 
 Cada release en `main` genera:
-1. **Git tag** con formato `vMAJOR.MINOR.PATCH` (automático en Jenkins Stage 13)
-2. **Release Notes** en archivo `RELEASE_NOTES_vX.Y.Z.md` (Jenkins Stage 12 via script)
+1. **Git tag** con formato `vMAJOR.MINOR.PATCH` (automático, Jenkins Stage 13)
+2. **Release Notes** en `docs/RELEASE_NOTES.md` (Jenkins Stage 12 vía script)
 3. **Docker images** etiquetadas con el mismo tag semver en Docker Hub
 
 ---
 
-## Plan de Rollback por Servicio
+## Tiempos de Rollback por Servicio
 
-| Servicio | Dependencias críticas | Tiempo estimado de rollback |
-|----------|----------------------|----------------------------|
+| Servicio | Dependencias críticas | Tiempo estimado |
+|----------|----------------------|-----------------|
 | auth-service | PostgreSQL, OpenLDAP | 2-3 min |
 | gateway-service | Redis, auth-service | 1-2 min |
 | form-service | PostgreSQL, Kafka | 2-3 min |
@@ -106,4 +108,4 @@ Cada release en `main` genera:
 | identity-service | PostgreSQL, Kafka | 2-3 min |
 
 **RTO (Recovery Time Objective):** < 10 minutos para cualquier servicio
-**RPO (Recovery Point Objective):** 0 (rollback a imagen anterior, sin pérdida de datos)
+**RPO (Recovery Point Objective):** 0 — rollback a imagen anterior, sin pérdida de datos en base de datos

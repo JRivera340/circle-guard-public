@@ -16,6 +16,10 @@ spec:
     metadata:
       labels:
         app: circleguard-identity-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8083"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: circleguard-identity-service
@@ -37,7 +41,9 @@ spec:
             - name: JWT_SECRET
               value: "my-super-secret-dev-key-32-chars-long-12345678"
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "health,info"
+              value: "health,info,metrics,prometheus"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
           resources:
             requests:
               memory: "512Mi"
@@ -45,6 +51,20 @@ spec:
             limits:
               memory: "768Mi"
               cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8083
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8083
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
@@ -77,6 +97,10 @@ spec:
     metadata:
       labels:
         app: circleguard-auth-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8180"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: circleguard-auth-service
@@ -100,7 +124,9 @@ spec:
             - name: IDENTITY_SERVICE_URL
               value: "http://circleguard-identity-service:8083"
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "health,info"
+              value: "health,info,metrics,prometheus"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
           resources:
             requests:
               memory: "512Mi"
@@ -108,6 +134,20 @@ spec:
             limits:
               memory: "768Mi"
               cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8180
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8180
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
@@ -140,6 +180,10 @@ spec:
     metadata:
       labels:
         app: circleguard-gateway-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8087"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: circleguard-gateway-service
@@ -155,7 +199,9 @@ spec:
             - name: QR_SECRET
               value: "my-qr-secret-key-for-dev-1234567890"
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "health,info"
+              value: "health,info,metrics,prometheus"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
           resources:
             requests:
               memory: "256Mi"
@@ -163,6 +209,20 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "300m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8087
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8087
+            initialDelaySeconds: 45
+            periodSeconds: 15
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
@@ -195,6 +255,10 @@ spec:
     metadata:
       labels:
         app: circleguard-form-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8086"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: circleguard-form-service
@@ -214,7 +278,9 @@ spec:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "host.docker.internal:9092"
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "health,info"
+              value: "health,info,metrics,prometheus"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
           resources:
             requests:
               memory: "512Mi"
@@ -222,6 +288,20 @@ spec:
             limits:
               memory: "768Mi"
               cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8086
+            initialDelaySeconds: 40
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8086
+            initialDelaySeconds: 90
+            periodSeconds: 15
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
@@ -254,6 +334,10 @@ spec:
     metadata:
       labels:
         app: circleguard-promotion-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8088"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: circleguard-promotion-service
@@ -283,7 +367,9 @@ spec:
             - name: JWT_SECRET
               value: "my-super-secret-dev-key-32-chars-long-12345678"
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "health,info"
+              value: "health,info,metrics,prometheus"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
           resources:
             requests:
               memory: "768Mi"
@@ -291,6 +377,20 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "1000m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8088
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8088
+            initialDelaySeconds: 120
+            periodSeconds: 15
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
@@ -323,6 +423,10 @@ spec:
     metadata:
       labels:
         app: circleguard-notification-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8082"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: circleguard-notification-service
@@ -340,7 +444,9 @@ spec:
             - name: SMS_MOCK
               value: "true"
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "health,info"
+              value: "health,info,metrics,prometheus"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
           resources:
             requests:
               memory: "512Mi"
@@ -348,6 +454,20 @@ spec:
             limits:
               memory: "768Mi"
               cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8082
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
@@ -380,6 +500,10 @@ spec:
     metadata:
       labels:
         app: circleguard-file-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8085"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: circleguard-file-service
@@ -389,7 +513,9 @@ spec:
             - containerPort: 8085
           env:
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "health,info"
+              value: "health,info,metrics,prometheus"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
           resources:
             requests:
               memory: "128Mi"
@@ -397,6 +523,20 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "200m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8085
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8085
+            initialDelaySeconds: 45
+            periodSeconds: 15
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
@@ -429,6 +569,10 @@ spec:
     metadata:
       labels:
         app: circleguard-dashboard-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8084"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
         - name: circleguard-dashboard-service
@@ -446,7 +590,9 @@ spec:
             - name: PROMOTION_SERVICE_URL
               value: "http://circleguard-promotion-service:8088"
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "health,info"
+              value: "health,info,metrics,prometheus"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
           resources:
             requests:
               memory: "256Mi"
@@ -454,6 +600,20 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "200m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8084
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8084
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
