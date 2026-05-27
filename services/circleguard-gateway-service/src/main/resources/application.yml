@@ -16,3 +16,45 @@ qr:
 
 server:
   port: 8087
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://jaeger.tracing:9411/api/v2/spans
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+    instances:
+      auth-service:
+        base-config: default
+      form-service:
+        base-config: default
+      promotion-service:
+        base-config: default
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 5s
+    instances:
+      auth-service:
+        base-config: default
+      form-service:
+        base-config: default

@@ -26,3 +26,7 @@ resources:
   - services/circleguard-notification-service/
   # Jenkins
   - services/jenkins/
+  # RBAC
+  - rbac/
+  # Network Policies
+  - network-policies/

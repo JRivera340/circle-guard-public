@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-config
+  namespace: logging
+data:
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+      }
+    }
+
+    filter {
+      if [kubernetes][namespace] =~ /circleguard/ {
+        json {
+          source => "message"
+          skip_on_invalid_json => true
+        }
+        mutate {
+          add_field => { "service" => "%{[kubernetes][labels][app]}" }
+          add_field => { "environment" => "%{[kubernetes][namespace]}" }
+        }
+        date {
+          match => ["timestamp", "ISO8601"]
+          target => "@timestamp"
+        }
+      }
+    }
+
+    output {
+      elasticsearch {
+        hosts => ["http://elasticsearch:9200"]
+        index => "circleguard-%{+YYYY.MM.dd}"
+      }
+    }

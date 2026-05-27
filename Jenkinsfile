@@ -74,6 +74,30 @@ spec:
             post {
                 always {
                     archiveArtifacts artifacts: '**/build/reports/tests/**', allowEmptyArchive: true
+                    archiveArtifacts artifacts: '**/build/reports/jacoco/**', allowEmptyArchive: true
+                    archiveArtifacts artifacts: '**/build/reports/jacoco/test/jacocoTestReport.xml', allowEmptyArchive: true
+                }
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        // STAGE 2.5 — SONARQUBE ANALYSIS
+        // ─────────────────────────────────────────────
+        stage('SonarQube Analysis') {
+            when { not { branch 'prod' } }
+            steps {
+                container('gradle') {
+                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                        sh '''
+                            ./gradlew sonar \
+                                -Dsonar.host.url=http://sonarqube.circleguard-dev:9000 \
+                                -Dsonar.token=${SONAR_TOKEN} \
+                                -Dsonar.projectKey=circleguard \
+                                -Dsonar.sources=services \
+                                -Dsonar.exclusions=**/build/**,**/*.class \
+                                --no-daemon || true
+                        '''
+                    }
                 }
             }
         }
@@ -127,6 +151,32 @@ spec:
                             parallel parallelBuilds
                         }
                     }
+                }
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        // STAGE 4.5 — TRIVY VULNERABILITY SCAN
+        // ─────────────────────────────────────────────
+        stage('Trivy Scan') {
+            when { not { branch 'prod' } }
+            steps {
+                container('docker') {
+                    sh '''
+                        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
+                            | sh -s -- -b /usr/local/bin v0.51.0 2>/dev/null || true
+
+                        for SVC in circleguard-auth-service circleguard-identity-service \
+                                   circleguard-form-service circleguard-promotion-service \
+                                   circleguard-gateway-service circleguard-notification-service; do
+                            echo "=== Trivy: ${DOCKER_ORG}/${SVC}:${IMAGE_TAG} ==="
+                            trivy image --exit-code 0 --severity HIGH,CRITICAL \
+                                --format table \
+                                --output trivy-${SVC}.txt \
+                                ${DOCKER_ORG}/${SVC}:${IMAGE_TAG} || true
+                        done
+                    '''
+                    archiveArtifacts artifacts: 'trivy-*.txt', allowEmptyArchive: true
                 }
             }
         }
@@ -257,6 +307,29 @@ spec:
         }
 
         // ─────────────────────────────────────────────
+        // STAGE 9.5 — OWASP ZAP SECURITY SCAN (staging)
+        // ─────────────────────────────────────────────
+        stage('OWASP ZAP Scan') {
+            when { branch 'staging' }
+            steps {
+                container('docker') {
+                    sh '''
+                        mkdir -p zap-reports
+                        GATEWAY_SVC=http://circleguard-gateway-service.circleguard-staging:8087
+                        docker run --rm --network host \
+                            -v $(pwd)/zap-reports:/zap/wrk/:rw \
+                            ghcr.io/zaproxy/zaproxy:stable \
+                            zap-baseline.py \
+                            -t ${GATEWAY_SVC} \
+                            -r zap-report.html \
+                            -I || true
+                    '''
+                    archiveArtifacts artifacts: 'zap-reports/*.html', allowEmptyArchive: true
+                }
+            }
+        }
+
+        // ─────────────────────────────────────────────
         // STAGE 10 — LOCUST PERFORMANCE TESTS (staging)
         // ─────────────────────────────────────────────
         stage('Performance Tests (Locust)') {
@@ -307,7 +380,7 @@ spec:
         }
 
         // ─────────────────────────────────────────────
-        // STAGE 13 — GIT TAG (prod)
+        // STAGE 13 — SEMANTIC VERSION TAG (prod)
         // ─────────────────────────────────────────────
         stage('Git Tag') {
             when { branch 'main' }
@@ -320,9 +393,14 @@ spec:
                     sh '''
                         git config user.email "jenkins@circleguard.edu"
                         git config user.name "Jenkins CI"
-                        git tag -a "v${IMAGE_TAG}" -m "Release v${IMAGE_TAG} — deployed by Jenkins"
-                        git push https://${GIT_USER}:${GIT_PASS}@github.com/jrivera340/circle-guard-public.git \
-                            "v${IMAGE_TAG}"
+                        LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+                        MAJOR=$(echo $LAST_TAG | cut -d. -f1 | tr -d v)
+                        MINOR=$(echo $LAST_TAG | cut -d. -f2)
+                        PATCH=$(echo $LAST_TAG | cut -d. -f3)
+                        NEW_TAG="v${MAJOR}.${MINOR}.$((PATCH + 1))"
+                        echo "Tagging release: ${NEW_TAG}"
+                        git tag -a "${NEW_TAG}" -m "Release ${NEW_TAG} — build ${BUILD_NUMBER} — sha ${IMAGE_TAG}"
+                        git push https://${GIT_USER}:${GIT_PASS}@github.com/jrivera340/circle-guard-public.git "${NEW_TAG}"
                     '''
                 }
             }
@@ -382,17 +460,31 @@ spec:
         }
         failure {
             echo "❌ Pipeline FAILED — Branch: ${env.BRANCH_NAME}"
-            // Rollback on production failure
+            emailext(
+                subject: "❌ [CircleGuard CI] FALLO en ${env.BRANCH_NAME} #${env.BUILD_NUMBER}",
+                body: """
+Pipeline fallido.
+Rama:   ${env.BRANCH_NAME}
+Build:  ${env.BUILD_URL}
+Commit: ${env.GIT_COMMIT}
+
+Revisar Jenkins para detalles.
+                """,
+                to: 'joshuariveron85@gmail.com',
+                mimeType: 'text/plain'
+            )
             script {
                 if (env.BRANCH_NAME == 'main') {
                     container('kubectl') {
-                        sh '''
-                            export KUBECONFIG=$KUBECONFIG
-                            echo "=== AUTO-ROLLBACK triggered ==="
-                            kubectl rollout undo deployment/circleguard-auth-service       -n circleguard-prod || true
-                            kubectl rollout undo deployment/circleguard-gateway-service    -n circleguard-prod || true
-                            kubectl rollout undo deployment/circleguard-promotion-service  -n circleguard-prod || true
-                        '''
+                        withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                            sh '''
+                                export KUBECONFIG=$KUBECONFIG
+                                echo "=== AUTO-ROLLBACK triggered ==="
+                                kubectl rollout undo deployment/circleguard-auth-service       -n circleguard-prod || true
+                                kubectl rollout undo deployment/circleguard-gateway-service    -n circleguard-prod || true
+                                kubectl rollout undo deployment/circleguard-promotion-service  -n circleguard-prod || true
+                            '''
+                        }
                     }
                 }
             }

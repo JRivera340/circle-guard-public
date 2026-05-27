@@ -2,6 +2,7 @@ plugins {
     id("org.springframework.boot") version "3.2.4" apply false
     id("io.spring.dependency-management") version "1.1.4" apply false
     id("com.google.cloud.tools.jib") version "3.4.1" apply false
+    id("org.sonarqube") version "4.4.1.3373" apply false
     kotlin("jvm") version "1.9.24" apply false
     kotlin("plugin.spring") version "1.9.24" apply false
     kotlin("plugin.jpa") version "1.9.24" apply false
@@ -46,6 +47,18 @@ subprojects {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        finalizedBy(tasks.named("jacocoTestReport"))
+    }
+
+    apply(plugin = "jacoco")
+    apply(plugin = "org.sonarqube")
+
+    tasks.withType<JacocoReport> {
+        dependsOn(tasks.named("test"))
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+        }
     }
 
     if (project.path.startsWith(":services:") && project.name != "services") {

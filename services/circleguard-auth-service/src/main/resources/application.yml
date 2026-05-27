@@ -28,3 +28,18 @@ qr:
 
 server:
   port: 8180
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://jaeger.tracing:9411/api/v2/spans
