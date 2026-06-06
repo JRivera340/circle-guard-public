@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: circleguard-config
+  namespace: circleguard-dev
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://host.docker.internal:5432/circleguard_auth"
+  SPRING_NEO4J_URI: "bolt://host.docker.internal:7687"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "host.docker.internal:9092"
+  SPRING_DATA_REDIS_HOST: "host.docker.internal"
+  SPRING_DATA_REDIS_PORT: "6379"
+  SPRING_LDAP_URLS: "ldap://host.docker.internal:389"
+  SPRING_DATASOURCE_USERNAME: "postgres"
+  JWT_SECRET: "my-super-secret-dev-key-32-chars-long-12345678"
+  QR_SECRET: "my-qr-secret-key-for-dev-1234567890"
+  VAULT_SECRET: "746573742d7365637265742d33322d63686172732d6c6f6e672d313233343536"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,metrics"
+  MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: "always"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: circleguard-secrets
+  namespace: circleguard-dev
+type: Opaque
+stringData:
+  DB_PASSWORD: "password"
+  NEO4J_PASSWORD: "password"

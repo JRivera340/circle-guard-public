@@ -56,7 +56,7 @@
 ## v1.0.0 — 2026-05-10
 
 ### Initial Release
-- 7 microservicios Spring Boot 3.2 / Kotlin (auth, identity, form, promotion, gateway, notification, dashboard)
+- Microservicios Spring Boot 3.2 / Java 17 (auth, identity, form, promotion, gateway, notification, más dashboard y file-service)
 - Jenkins pipeline con stages: checkout → unit tests → build JARs → docker build/push → deploy → smoke tests
 - K8s base manifests: PostgreSQL, Neo4j, Redis, Kafka, OpenLDAP, 6 microservicios
 - E2E test suite con pytest + requests

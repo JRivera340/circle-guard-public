@@ -1,32 +1,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: circleguard-dev
+# El namespace lo fija cada overlay (dev/staging/prod). La base es agnóstica.
 
 resources:
-  # Namespaces
-  - namespaces/dev.yaml
-  - namespaces/staging.yaml
-  - namespaces/prod.yaml
-  # Middleware
-  - postgres/
-  - neo4j/
-  - redis/
-  - kafka/
-  - openldap/
-  # ConfigMaps & Secrets
-  - configmaps/
-  - secrets/
-  # Microservices
-  - services/circleguard-auth-service/
-  - services/circleguard-identity-service/
-  - services/circleguard-form-service/
-  - services/circleguard-promotion-service/
-  - services/circleguard-gateway-service/
-  - services/circleguard-notification-service/
-  # Jenkins
-  - services/jenkins/
-  # RBAC
-  - rbac/
-  # Network Policies
-  - network-policies/
+  # ConfigMaps de aplicación
+  - configmap.yaml
+  # Microservicios (Deployments + Services)
+  - deployments.yaml
+  # RBAC: una ServiceAccount, Role y RoleBinding por servicio
+  - rbac/service-accounts.yaml
+  - rbac/roles.yaml
+  - rbac/rolebindings.yaml
+  # Network Policies: deny-all + tráfico intra-namespace y DNS
+  - network-policies/default-deny.yaml
+  - network-policies/allow-intra-namespace.yaml

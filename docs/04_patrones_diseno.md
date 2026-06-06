@@ -73,7 +73,7 @@ El tiempo de respuesta bajo fallo pasa de ~5s (esperar el timeout) a <10ms (fall
 
 **Implementación:** Kubernetes ConfigMaps + Spring `@Value` / `@ConfigurationProperties`
 
-Variables externalizadas en `k8s/dev-deploy/configmap.yaml`:
+Variables externalizadas en `k8s/base/configmap.yaml`:
 - `SPRING_DATASOURCE_URL`
 - `SPRING_KAFKA_BOOTSTRAP_SERVERS`
 - `SPRING_DATA_REDIS_HOST`

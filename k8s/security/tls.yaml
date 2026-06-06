@@ -1,0 +1,69 @@
+# TLS para el servicio expuesto públicamente (gateway).
+#
+# Requisitos en el cluster:
+#   - ingress-nginx  (controlador de Ingress)
+#   - cert-manager   (emisión y rotación de certificados)
+#
+# Instalación de dependencias (una sola vez):
+#   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+#   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+#
+# Aplicar este stack:
+#   kubectl apply -f k8s/security/tls.yaml
+#
+# Para dev usamos un emisor self-signed; en prod se reemplaza por un
+# ClusterIssuer de Let's Encrypt (ACME) cambiando únicamente el issuerRef.
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: circleguard-selfsigned
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: circleguard-gateway-tls
+  namespace: circleguard-dev
+spec:
+  secretName: circleguard-tls-secret
+  duration: 2160h      # 90 días
+  renewBefore: 360h    # renovar 15 días antes
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  dnsNames:
+    - circleguard.local
+    - gateway.circleguard.local
+  issuerRef:
+    name: circleguard-selfsigned
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: circleguard-gateway
+  namespace: circleguard-dev
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - circleguard.local
+        - gateway.circleguard.local
+      secretName: circleguard-tls-secret
+  rules:
+    - host: circleguard.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: circleguard-gateway-service
+                port:
+                  number: 8087
