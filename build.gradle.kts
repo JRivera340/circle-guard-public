@@ -38,6 +38,9 @@ subprojects {
         "testRuntimeOnly"("com.h2database:h2")
     }
 
+    apply(plugin = "jacoco")
+    apply(plugin = "org.sonarqube")
+
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -49,9 +52,6 @@ subprojects {
         useJUnitPlatform()
         finalizedBy(tasks.named("jacocoTestReport"))
     }
-
-    apply(plugin = "jacoco")
-    apply(plugin = "org.sonarqube")
 
     tasks.withType<JacocoReport> {
         dependsOn(tasks.named("test"))

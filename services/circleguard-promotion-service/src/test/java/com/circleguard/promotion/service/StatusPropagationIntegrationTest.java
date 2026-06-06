@@ -1,5 +1,6 @@
 package com.circleguard.promotion.service;
 
+import com.circleguard.promotion.repository.graph.CircleNodeRepository;
 import com.circleguard.promotion.repository.graph.UserNodeRepository;
 import com.circleguard.promotion.repository.jpa.SystemSettingsRepository;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.kafka.core.KafkaTemplate;
 
-import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,25 +33,41 @@ public class StatusPropagationIntegrationTest {
     @Mock
     private SystemSettingsRepository systemSettingsRepository;
     @Mock
+    private CircleNodeRepository circleNodeRepository;
+    @Mock
     private ValueOperations<String, String> valueOperations;
 
     @InjectMocks
     private HealthStatusService healthStatusService;
+
+    /**
+     * El cliente Neo4j usa una API fluida (query().bind().to()...fetch().one()).
+     * Aquí dejamos toda la cadena devolviendo mocks no nulos y un resultado vacío,
+     * de modo que la lógica de propagación corre sin grafo real. Es lenient porque
+     * no todos los métodos usan todos los eslabones (run() vs fetch()).
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private void stubNeo4jChain() {
+        Neo4jClient.UnboundRunnableSpec unbound = mock(Neo4jClient.UnboundRunnableSpec.class);
+        Neo4jClient.OngoingBindSpec bindSpec = mock(Neo4jClient.OngoingBindSpec.class);
+        Neo4jClient.RunnableSpec runnableSpec = mock(Neo4jClient.RunnableSpec.class);
+        Neo4jClient.RecordFetchSpec fetchSpec = mock(Neo4jClient.RecordFetchSpec.class);
+
+        lenient().when(neo4jClient.query(anyString())).thenReturn(unbound);
+        lenient().when(unbound.bind(any())).thenReturn(bindSpec);
+        lenient().when(runnableSpec.bind(any())).thenReturn(bindSpec);
+        lenient().when(bindSpec.to(anyString())).thenReturn(runnableSpec);
+        lenient().when(runnableSpec.fetch()).thenReturn(fetchSpec);
+        lenient().when(fetchSpec.one()).thenReturn(Optional.empty());
+    }
 
     @Test
     void shouldUpdateRedisOnConfirmedStatus() {
         // Si alguien da positivo, hay que avisarle a Redis de una para que no lo dejen entrar
         String anonId = UUID.randomUUID().toString();
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        
-        Neo4jClient.UnboundRunnableSpec spec = mock(Neo4jClient.UnboundRunnableSpec.class);
-        Neo4jClient.OngoingBindSpec bindSpec = mock(Neo4jClient.OngoingBindSpec.class);
-        Neo4jClient.RunnableSpec runnableSpec = mock(Neo4jClient.RunnableSpec.class);
-        
-        doReturn(spec).when(neo4jClient).query(anyString());
-        doReturn(bindSpec).when(spec).bind(any());
-        doReturn(runnableSpec).when(bindSpec).to(anyString());
-        
+        stubNeo4jChain();
+
         healthStatusService.updateStatus(anonId, "CONFIRMED");
 
         verify(valueOperations).multiSet(any());
@@ -61,7 +77,12 @@ public class StatusPropagationIntegrationTest {
     void shouldSendKafkaEventWhenStatusChanges() {
         // Esto es para que el servicio de notificaciones sepa que hay que mandar correos
         String anonId = UUID.randomUUID().toString();
-        // ... (resto del mock omitido por brevedad en este ejemplo de humanización)
+        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+        stubNeo4jChain();
+
+        healthStatusService.updateStatus(anonId, "CONFIRMED");
+
+        verify(kafkaTemplate, atLeastOnce()).send(anyString(), eq(anonId), any());
     }
 
     @Test
@@ -69,14 +90,7 @@ public class StatusPropagationIntegrationTest {
         // Cuando el administrador limpia el estado, el usuario vuelve a estar activo en Redis
         String anonId = UUID.randomUUID().toString();
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        
-        Neo4jClient.UnboundRunnableSpec spec = mock(Neo4jClient.UnboundRunnableSpec.class);
-        Neo4jClient.OngoingBindSpec bindSpec = mock(Neo4jClient.OngoingBindSpec.class);
-        Neo4jClient.RunnableSpec runnableSpec = mock(Neo4jClient.RunnableSpec.class);
-        
-        doReturn(spec).when(neo4jClient).query(anyString());
-        doReturn(bindSpec).when(spec).bind(any());
-        doReturn(runnableSpec).when(bindSpec).to(anyString());
+        stubNeo4jChain();
 
         healthStatusService.resolveStatus(anonId, true);
 
@@ -88,14 +102,7 @@ public class StatusPropagationIntegrationTest {
         // Los recuperados no son eternos, el estado en Redis debe expirar
         String anonId = UUID.randomUUID().toString();
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        
-        Neo4jClient.UnboundRunnableSpec spec = mock(Neo4jClient.UnboundRunnableSpec.class);
-        Neo4jClient.OngoingBindSpec bindSpec = mock(Neo4jClient.OngoingBindSpec.class);
-        Neo4jClient.RunnableSpec runnableSpec = mock(Neo4jClient.RunnableSpec.class);
-        
-        doReturn(spec).when(neo4jClient).query(anyString());
-        doReturn(bindSpec).when(spec).bind(any());
-        doReturn(runnableSpec).when(bindSpec).to(anyString());
+        stubNeo4jChain();
 
         healthStatusService.promoteToRecovered(anonId);
 
@@ -108,14 +115,7 @@ public class StatusPropagationIntegrationTest {
         String anonId = UUID.randomUUID().toString();
         when(systemSettingsRepository.getSettings()).thenReturn(Optional.empty());
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        
-        Neo4jClient.UnboundRunnableSpec spec = mock(Neo4jClient.UnboundRunnableSpec.class);
-        Neo4jClient.OngoingBindSpec bindSpec = mock(Neo4jClient.OngoingBindSpec.class);
-        Neo4jClient.RunnableSpec runnableSpec = mock(Neo4jClient.RunnableSpec.class);
-        
-        doReturn(spec).when(neo4jClient).query(anyString());
-        doReturn(bindSpec).when(spec).bind(any());
-        doReturn(runnableSpec).when(bindSpec).to(anyString());
+        stubNeo4jChain();
 
         healthStatusService.updateStatus(anonId, "CONFIRMED");
 
