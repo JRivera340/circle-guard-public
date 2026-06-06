@@ -67,3 +67,25 @@ spec:
                 name: circleguard-gateway-service
                 port:
                   number: 8087
+---
+# Permite que el controlador Ingress (namespace ingress-nginx) alcance al gateway,
+# que de otro modo bloquearía la NetworkPolicy default-deny del namespace.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-controller
+  namespace: circleguard-dev
+spec:
+  podSelector:
+    matchLabels:
+      app: circleguard-gateway-service
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8087

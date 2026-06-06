@@ -1,0 +1,77 @@
+# Chaos Engineering con Chaos Mesh (Bonificación)
+#
+# Requisitos:
+#   helm repo add chaos-mesh https://charts.chaos-mesh.org
+#   helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-mesh --create-namespace
+#
+# Aplicar un experimento:
+#   kubectl apply -f k8s/chaos/experiments.yaml
+#
+# Cada experimento valida una hipótesis de resiliencia. Ver docs/09_bonificaciones.md
+# para el diseño, hipótesis y resultados esperados.
+---
+# Experimento 1: matar pods del auth-service para validar tolerancia a fallos.
+# Hipótesis: con 2+ réplicas y readiness probes, matar un pod no degrada el login.
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: auth-pod-kill
+  namespace: circleguard-dev
+spec:
+  action: pod-kill
+  mode: one
+  selector:
+    namespaces:
+      - circleguard-dev
+    labelSelectors:
+      app: circleguard-auth-service
+  scheduler:
+    cron: "@every 5m"
+---
+# Experimento 2: inyectar latencia de red hacia Redis.
+# Hipótesis: el Circuit Breaker del gateway abre y devuelve fallback en vez de colgarse.
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: redis-latency
+  namespace: circleguard-dev
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces:
+      - circleguard-dev
+    labelSelectors:
+      app: circleguard-gateway-service
+  delay:
+    latency: "2s"
+    jitter: "500ms"
+  duration: "2m"
+  direction: to
+  target:
+    mode: all
+    selector:
+      namespaces:
+        - circleguard-dev
+      labelSelectors:
+        app: redis
+---
+# Experimento 3: estrés de CPU en promotion-service (el de propagación en grafo).
+# Hipótesis: bajo presión de CPU, HPA/limits mantienen P99 aceptable o escalan.
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: promotion-cpu-stress
+  namespace: circleguard-dev
+spec:
+  mode: one
+  selector:
+    namespaces:
+      - circleguard-dev
+    labelSelectors:
+      app: circleguard-promotion-service
+  stressors:
+    cpu:
+      workers: 2
+      load: 80
+  duration: "3m"

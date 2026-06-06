@@ -98,6 +98,46 @@ data:
             "expr": "histogram_quantile(0.99, rate(http_server_requests_seconds_bucket[5m]))",
             "legendFormat": "{{job}} P99"
           }]
+        },
+        {
+          "id": 7,
+          "title": "Negocio: Validaciones de acceso (gate) /s",
+          "type": "timeseries",
+          "gridPos": {"x":0,"y":24,"w":12,"h":8},
+          "targets": [{
+            "expr": "sum(rate(http_server_requests_seconds_count{job='circleguard-gateway',uri=~'/api/v1/gate.*'}[5m]))",
+            "legendFormat": "validaciones/s"
+          }]
+        },
+        {
+          "id": 8,
+          "title": "Negocio: Cambios de estado de salud /s",
+          "type": "timeseries",
+          "gridPos": {"x":12,"y":24,"w":12,"h":8},
+          "targets": [{
+            "expr": "sum(rate(http_server_requests_seconds_count{job='circleguard-promotion',uri=~'/api/v1/status.*'}[5m]))",
+            "legendFormat": "cambios/s"
+          }]
+        },
+        {
+          "id": 9,
+          "title": "FinOps: CPU solicitada vs asignable del cluster",
+          "type": "timeseries",
+          "gridPos": {"x":0,"y":32,"w":12,"h":8},
+          "targets": [
+            {"expr": "sum(kube_pod_container_resource_requests{resource='cpu'})", "legendFormat": "CPU solicitada"},
+            {"expr": "sum(kube_node_status_allocatable{resource='cpu'})", "legendFormat": "CPU asignable"}
+          ]
+        },
+        {
+          "id": 10,
+          "title": "FinOps: Densidad de pods por nodo",
+          "type": "stat",
+          "gridPos": {"x":12,"y":32,"w":12,"h":8},
+          "targets": [{
+            "expr": "count(kube_pod_info) / count(count by (node) (kube_pod_info))",
+            "legendFormat": "pods/nodo"
+          }]
         }
       ],
       "schemaVersion": 39,

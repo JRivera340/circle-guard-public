@@ -1,0 +1,112 @@
+# Service Mesh con Istio (Bonificación)
+#
+# Requisitos:
+#   istioctl install --set profile=demo -y
+#   kubectl label namespace circleguard-dev istio-injection=enabled
+#   kubectl rollout restart deployment -n circleguard-dev   # re-inyecta el sidecar
+#
+# Aplicar:
+#   kubectl apply -f k8s/service-mesh/istio.yaml
+#
+# Contenido:
+#   1. mTLS STRICT en todo el namespace (cifrado servicio-a-servicio)
+#   2. DestinationRule del gateway: subsets v1/v2 + circuit breaker (outlier detection) + retries
+#   3. VirtualService del gateway: traffic shifting canary 90/10 hacia v2
+#   4. Istio Gateway + VirtualService de borde para exponer el gateway
+---
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: circleguard-dev
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: circleguard-gateway
+  namespace: circleguard-dev
+spec:
+  host: circleguard-gateway-service
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http1MaxPendingRequests: 50
+        maxRequestsPerConnection: 10
+    outlierDetection:        # circuit breaker a nivel de mesh
+      consecutive5xxErrors: 5
+      interval: 10s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 50
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: circleguard-gateway
+  namespace: circleguard-dev
+spec:
+  hosts:
+    - circleguard-gateway-service
+  http:
+    - retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: 5xx,connect-failure,refused-stream
+      route:
+        - destination:
+            host: circleguard-gateway-service
+            subset: v1
+          weight: 90
+        - destination:
+            host: circleguard-gateway-service
+            subset: v2
+          weight: 10
+---
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: circleguard-edge
+  namespace: circleguard-dev
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: circleguard-tls-secret
+      hosts:
+        - circleguard.local
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: circleguard-edge
+  namespace: circleguard-dev
+spec:
+  hosts:
+    - circleguard.local
+  gateways:
+    - circleguard-edge
+  http:
+    - route:
+        - destination:
+            host: circleguard-gateway-service
+            port:
+              number: 8087
