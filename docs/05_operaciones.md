@@ -216,3 +216,29 @@ kubectl apply -f k8s/tracing/jaeger-all-in-one.yaml
 | Circuit Breaker abierto | CB state = OPEN | Revisar auth-service |
 
 Las alertas se envían por email via Alertmanager.
+
+---
+
+## TLS y Exposición Pública
+
+El gateway es el único servicio expuesto a internet y va detrás de un Ingress con TLS terminado por `cert-manager`.
+
+### Dependencias (una sola vez por cluster)
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+```
+
+### Aplicar TLS + Ingress
+```bash
+kubectl apply -f k8s/security/tls.yaml
+kubectl get certificate -n circleguard-dev   # READY=True cuando el cert está emitido
+```
+
+En dev se usa un `ClusterIssuer` self-signed; para producción se cambia el `issuerRef` a un emisor ACME de Let's Encrypt sin tocar el Ingress. Para probar localmente, agregar `127.0.0.1 circleguard.local` al archivo hosts y acceder por `https://circleguard.local`.
+
+## Gestión de Secretos y RBAC
+
+- Los valores sensibles (passwords, JWT/QR secret) viven en K8s Secrets, separados de los ConfigMaps de configuración.
+- Cada microservicio corre con su propia `ServiceAccount` y un `Role` de mínimo privilegio (solo lectura de configmaps/secrets de su namespace) — ver `k8s/base/rbac/`.
+- Tráfico restringido por `NetworkPolicy` `default-deny` + `allow-intra-namespace` (ver `k8s/base/network-policies/`).
