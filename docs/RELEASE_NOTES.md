@@ -1,5 +1,23 @@
 # Release Notes
 
+## v1.3.0 — 2026-06-06
+
+### Features
+- feat(security): TLS/Ingress para el gateway con cert-manager (ClusterIssuer self-signed en dev, ACME en prod) en `k8s/security/tls.yaml`
+- feat(patterns): Circuit Breaker Resilience4j ahora cableado de verdad en gateway (`@CircuitBreaker` + fallback fail-closed sobre la dependencia de estado)
+- feat(docs): diagramas Mermaid de arquitectura de microservicios e infraestructura; documento de costos de infraestructura con palancas FinOps
+
+### Bug Fixes
+- fix(build): `jacocoTestReport` se aplicaba después de configurar las tareas Test → rompía todos los builds y el pipeline; reordenado
+- fix(k8s): overlays Kustomize (dev/stage/prod) no compilaban porque la base referenciaba directorios inexistentes; base reescrita sobre manifiestos reales (45 objetos por overlay)
+- fix(tests): tests de integración Testcontainers marcados `disabledWithoutDocker` (saltan sin Docker, corren en el agente CI); removido `.testcontainers.properties` con npipe de Windows que rompía el agente Linux
+- fix(tests): mocks del cliente Neo4j en `StatusPropagationIntegrationTest` corregidos (cadena fluida completa); build de tests en verde
+
+### Docs
+- Corrección Kotlin → Java 17 en la descripción de los microservicios
+
+---
+
 ## v1.2.0 — 2026-05-26
 
 ### Features
