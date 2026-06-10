@@ -10,7 +10,7 @@ pipeline {
         NS         = 'circleguard-dev'
         TAG        = "v1.0.${env.BUILD_NUMBER}"
         SERVICES   = 'auth identity form promotion gateway notification dashboard file'
-        SONAR_URL  = 'http://host.docker.internal:30900'
+        SONAR_URL  = 'http://host.docker.internal:9000'
     }
 
     stages {
@@ -29,15 +29,17 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                // Best-effort: si el server o el token no están, no rompe el build.
-                sh '''
-                    ./gradlew sonar --no-daemon \
-                        -Dsonar.host.url=${SONAR_URL} \
-                        -Dsonar.projectKey=circleguard \
-                        -Dsonar.sources=services \
-                        -Dsonar.exclusions=**/build/**,**/*.class \
-                        || echo "SonarQube best-effort: revisar server/token en ${SONAR_URL}"
-                '''
+                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                    sh '''
+                        ./gradlew sonar --no-daemon \
+                            -Dsonar.host.url=${SONAR_URL} \
+                            -Dsonar.token=${SONAR_TOKEN} \
+                            -Dsonar.projectKey=circleguard \
+                            -Dsonar.projectName=CircleGuard \
+                            -Dsonar.sources=services \
+                            -Dsonar.exclusions=**/build/**,**/*.class
+                    '''
+                }
             }
         }
 
