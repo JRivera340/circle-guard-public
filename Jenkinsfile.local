@@ -49,7 +49,6 @@ pipeline {
                             -Dsonar.token=${SONAR_TOKEN} \
                             -Dsonar.projectKey=circleguard \
                             -Dsonar.projectName=CircleGuard \
-                            -Dsonar.sources=services \
                             -Dsonar.exclusions=**/build/**,**/*.class \
                             || echo "SonarQube best-effort: server no alcanzable en ${SONAR_URL}, se continua"
                     '''
@@ -69,12 +68,14 @@ pipeline {
         stage('Trivy Scan') {
             steps {
                 sh '''
+                    mkdir -p "$WORKSPACE/bin"
                     curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
-                        | sh -s -- -b /tmp/bin v0.51.0 || true
+                        | sh -s -- -b "$WORKSPACE/bin" v0.51.0
+                    "$WORKSPACE/bin/trivy" --version || true
                     for s in $SERVICES; do
                         echo "=== Trivy: $DOCKER_ORG/circleguard-$s-service:$TAG ==="
-                        /tmp/bin/trivy image --scanners vuln --severity HIGH,CRITICAL \
-                            --format table --output trivy-$s.txt \
+                        "$WORKSPACE/bin/trivy" image --scanners vuln --severity HIGH,CRITICAL \
+                            --timeout 10m --format table --output trivy-$s.txt \
                             $DOCKER_ORG/circleguard-$s-service:$TAG || true
                     done
                 '''
@@ -85,13 +86,16 @@ pipeline {
         stage('Semantic Version Tag') {
             steps {
                 sh '''
+                    git config user.email "ci@circleguard.local"
+                    git config user.name "CircleGuard CI"
                     LAST=$(git describe --tags --abbrev=0 2>/dev/null || echo v0.0.0)
                     MAJOR=$(echo $LAST | cut -d. -f1 | tr -d v)
                     MINOR=$(echo $LAST | cut -d. -f2)
                     PATCH=$(echo $LAST | cut -d. -f3)
-                    NEW="v${MAJOR}.${MINOR}.$((PATCH + 1))"
-                    git tag -a "$NEW" -m "Release $NEW (build ${BUILD_NUMBER})" || true
+                    NEW="v${MAJOR}.${MINOR}.${BUILD_NUMBER}"
+                    git tag -fa "$NEW" -m "Release $NEW (build ${BUILD_NUMBER})"
                     echo "Versión semántica generada: $NEW"
+                    git tag --list | tail -5
                 '''
             }
         }
