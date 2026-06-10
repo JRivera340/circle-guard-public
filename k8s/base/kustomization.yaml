@@ -15,3 +15,15 @@ resources:
   # Network Policies: deny-all + tráfico intra-namespace y DNS
   - network-policies/default-deny.yaml
   - network-policies/allow-intra-namespace.yaml
+
+# Habilita los health groups de Kubernetes (liveness/readiness) en todos los
+# servicios; sin esto, /actuator/health/{liveness,readiness} responde 404.
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
+          value: "true"
