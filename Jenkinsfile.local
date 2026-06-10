@@ -10,6 +10,7 @@ pipeline {
         NS         = 'circleguard-dev'
         TAG        = "v1.0.${env.BUILD_NUMBER}"
         SERVICES   = 'auth identity form promotion gateway notification dashboard file'
+        SONAR_URL  = 'http://host.docker.internal:30900'
     }
 
     stages {
@@ -26,12 +27,56 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                // Best-effort: si el server o el token no están, no rompe el build.
+                sh '''
+                    ./gradlew sonar --no-daemon \
+                        -Dsonar.host.url=${SONAR_URL} \
+                        -Dsonar.projectKey=circleguard \
+                        -Dsonar.sources=services \
+                        -Dsonar.exclusions=**/build/**,**/*.class \
+                        || echo "SonarQube best-effort: revisar server/token en ${SONAR_URL}"
+                '''
+            }
+        }
+
         stage('Build & Push Images') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
                         usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh './gradlew jib --no-daemon'
                 }
+            }
+        }
+
+        stage('Trivy Scan') {
+            steps {
+                sh '''
+                    curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
+                        | sh -s -- -b /tmp/bin v0.51.0 || true
+                    for s in $SERVICES; do
+                        echo "=== Trivy: $DOCKER_ORG/circleguard-$s-service:$TAG ==="
+                        /tmp/bin/trivy image --scanners vuln --severity HIGH,CRITICAL \
+                            --format table --output trivy-$s.txt \
+                            $DOCKER_ORG/circleguard-$s-service:$TAG || true
+                    done
+                '''
+                archiveArtifacts artifacts: 'trivy-*.txt', allowEmptyArchive: true
+            }
+        }
+
+        stage('Semantic Version Tag') {
+            steps {
+                sh '''
+                    LAST=$(git describe --tags --abbrev=0 2>/dev/null || echo v0.0.0)
+                    MAJOR=$(echo $LAST | cut -d. -f1 | tr -d v)
+                    MINOR=$(echo $LAST | cut -d. -f2)
+                    PATCH=$(echo $LAST | cut -d. -f3)
+                    NEW="v${MAJOR}.${MINOR}.$((PATCH + 1))"
+                    git tag -a "$NEW" -m "Release $NEW (build ${BUILD_NUMBER})" || true
+                    echo "Versión semántica generada: $NEW"
+                '''
             }
         }
 
