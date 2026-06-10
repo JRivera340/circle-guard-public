@@ -68,13 +68,13 @@ pipeline {
         stage('Trivy Scan') {
             steps {
                 sh '''
-                    mkdir -p "$WORKSPACE/bin"
-                    curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
-                        | sh -s -- -b "$WORKSPACE/bin" v0.51.0
-                    "$WORKSPACE/bin/trivy" --version || true
+                    command -v trivy >/dev/null 2>&1 \
+                        || curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.51.0 \
+                        || true
+                    trivy --version || true
                     for s in $SERVICES; do
                         echo "=== Trivy: $DOCKER_ORG/circleguard-$s-service:$TAG ==="
-                        "$WORKSPACE/bin/trivy" image --scanners vuln --severity HIGH,CRITICAL \
+                        trivy image --scanners vuln --severity HIGH,CRITICAL \
                             --timeout 10m --format table --output trivy-$s.txt \
                             $DOCKER_ORG/circleguard-$s-service:$TAG || true
                     done
