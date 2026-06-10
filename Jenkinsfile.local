@@ -1,0 +1,68 @@
+// Pipeline local: corre en el propio controlador Jenkins (agent any), pensado para
+// demostrar el flujo CI/CD contra el cluster local (Docker Desktop / kind).
+// El Jenkinsfile principal usa agentes Kubernetes y está pensado para un cluster real.
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_ORG = 'jrivera340'
+        KUBECONFIG = '/var/jenkins_home/.kube/config'
+        NS         = 'circleguard-dev'
+        TAG        = "v1.0.${env.BUILD_NUMBER}"
+        SERVICES   = 'auth identity form promotion gateway notification dashboard file'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps { checkout scm }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                sh './gradlew test --no-daemon'
+            }
+            post {
+                always { junit testResults: 'services/**/build/test-results/test/*.xml', allowEmptyResults: true }
+            }
+        }
+
+        stage('Build & Push Images') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh './gradlew jib --no-daemon'
+                }
+            }
+        }
+
+        stage('Deploy DEV') {
+            steps {
+                sh '''
+                    for s in $SERVICES; do
+                        kubectl set image deployment/circleguard-$s-service \
+                            circleguard-$s-service=$DOCKER_ORG/circleguard-$s-service:$TAG -n $NS || true
+                    done
+                    for s in auth identity form promotion gateway notification; do
+                        kubectl rollout status deployment/circleguard-$s-service -n $NS --timeout=180s || true
+                    done
+                '''
+            }
+        }
+
+        stage('Smoke Test') {
+            steps {
+                sh '''
+                    kubectl exec -n $NS deploy/circleguard-gateway-service -- \
+                        wget -qO- --post-data='{"token":"smoke"}' \
+                        --header='Content-Type: application/json' \
+                        http://localhost:8087/api/v1/gate/validate
+                '''
+            }
+        }
+    }
+
+    post {
+        success { echo "Pipeline OK — imágenes $TAG desplegadas en $NS" }
+        failure { echo "Pipeline FALLÓ — revisar logs del stage" }
+    }
+}
